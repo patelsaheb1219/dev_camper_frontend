@@ -1,17 +1,21 @@
 // Module Imports
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 
 // Component Imports
-import PrivateRoute from './components/common/PrivateRoute';
-import Home from './components/Home';
-import Login from './components/Login';
-import Profile from './components/Profile';
+import PrivateRoute from "./components/common/PrivateRoute";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+
+// Redux Store Import
+import store from "./redux/store";
 
 const App = () => {
   // dev_camper_api published APIs => https://documenter.getpostman.com/view/4496307/TzRLkW9k
   return (
-    <div>
+    <Provider store={store}>
       <Router>
         <Route exact path='/' component={Home} />
         <div>
@@ -23,7 +27,7 @@ const App = () => {
           </Switch>
         </div>
       </Router>
-    </div>
+    </Provider>
   );
 };
 
