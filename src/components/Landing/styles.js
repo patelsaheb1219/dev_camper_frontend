@@ -22,6 +22,9 @@ export const styleRules = (theme) => ({
   loginButton: {
     backgroundColor: '#fff',
     color: theme.palette.primary.main,
-    border: `1px solid ${theme.palette.primary.main}`
+    border: `1px solid ${theme.palette.primary.main}`,
+    "&:hover": {
+      backgroundColor: '#fff',
+    },
   }
 });

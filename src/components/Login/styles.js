@@ -9,6 +9,11 @@ export const styleRules = (theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  logoImage: {
+    width: 100, 
+    height: 100, 
+    objectFit: "contain"
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),

@@ -11,7 +11,10 @@ import {
   Typography,
   Container,
   Link,
-  Box
+  Box,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,14 +33,19 @@ const Register = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+
+  // Role function
+  const handleRadioChange = (event) => {
+    setRole(event.target.value);
+  };
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img src='icon.png' className={classes.logoImage} />
           <Typography component='h1' variant='h5'>
             Sign up
           </Typography>
@@ -80,6 +88,31 @@ const Register = (props) => {
                   autoComplete='current-password'
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <RadioGroup
+                  aria-label='quiz'
+                  name='quiz'
+                  value={role}
+                  onChange={handleRadioChange}
+                >
+                  <Grid container direction='row' justify='flex-start'>
+                    <Grid item>
+                      <FormControlLabel
+                        value='user'
+                        control={<Radio color='primary' />}
+                        label='User'
+                      />
+                    </Grid>
+                    <Grid item>
+                      <FormControlLabel
+                        value='publisher'
+                        control={<Radio color='primary' />}
+                        label='Publisher'
+                      />
+                    </Grid>
+                  </Grid>
+                </RadioGroup>
               </Grid>
             </Grid>
             <Button

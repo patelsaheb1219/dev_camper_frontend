@@ -11,7 +11,7 @@ import {
   Typography,
   Container,
   Link,
-  Box
+  Box,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,9 +34,7 @@ const Login = (props) => {
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img src='icon.png' className={classes.logoImage} />
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
