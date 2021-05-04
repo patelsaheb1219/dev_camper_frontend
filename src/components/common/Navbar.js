@@ -58,7 +58,7 @@ const Navbar = (props) => {
               <Link href={redirectTo(pathname)} variant='h6' className={classes.title}>
                 DevCamper
               </Link>
-            {authToken && authToken !== undefined && pathname !== "/login" && pathname !== "/register" ? (
+            {authToken && authToken !== undefined && pathname !== "/login" && pathname !== "/register" && pathname !== "/" ? (
               <React.Fragment>
                 <Link href='/profile' className={classes.linkText}>
                     Profile
