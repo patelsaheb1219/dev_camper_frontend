@@ -7,6 +7,7 @@ import { ThemeProvider } from "@material-ui/styles";
 
 // Component Imports
 import Navbar from "./components/common/Navbar";
+import Footer from './components/common/Footer';
 import PrivateRoute from "./components/common/PrivateRoute";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -72,6 +73,7 @@ const App = () => {
             </Switch>
           </div>
         </Router>
+        <Footer />
       </Provider>
     </ThemeProvider>
   );
