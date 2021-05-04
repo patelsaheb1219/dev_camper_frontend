@@ -74,7 +74,7 @@ const Navbar = (props) => {
     );
   }
 
-  if (pathname === "/login" || pathname === "/register") {
+  if (pathname === "/login" || pathname === "/register" || pathname === '/forgotpassword') {
     return (
       <div className={classes.root}>
         <AppBar position='static'>

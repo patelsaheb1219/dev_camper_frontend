@@ -14,6 +14,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import Landing from "./components/Landing";
 import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
 
 // Action Imports
 import { setUserToken } from "./redux/actions/userActions";
@@ -40,7 +41,8 @@ const checkUserLoggedIn = async () => {
   if (
     (pathName !== "/login" &&
     pathName !== "/register" &&
-    pathName !== "/") ||
+    pathName !== "/" && 
+    pathName !== "/forgotpassword") ||
     authToken === "null"
   ) {
     console.log("here");
@@ -64,6 +66,7 @@ const App = () => {
             <Switch>
               <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
+              <Route exact path='/forgotpassword' component={ForgotPassword} />
             </Switch>
             <Switch>
               <PrivateRoute path='/home' component={Home} />
