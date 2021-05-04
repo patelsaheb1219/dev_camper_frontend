@@ -30,16 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const redirectTo = (pathname) => {
-  if (pathname !== "/login" && pathname !== "/register") {
-    return "/home";
-  }
-  if (pathname === "/home") {
-    return "#";
-  }
-  return "/";
-};
-
 const Navbar = (props) => {
   const { authToken } = props;
   const classes = useStyles();

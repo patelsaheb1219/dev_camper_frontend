@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  Avatar,
   Button,
   CssBaseline,
   TextField,
@@ -13,7 +12,6 @@ import {
   Link,
   Box,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 
 // File Imports
@@ -34,7 +32,7 @@ const Login = (props) => {
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <img src='icon.png' className={classes.logoImage} />
+          <img src='icon.png' className={classes.logoImage} alt={'Icon'} />
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
@@ -75,7 +73,7 @@ const Login = (props) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href='#' variant='body2'>
+                <Link href='/forgotpassword' variant='body2'>
                   Forgot password?
                 </Link>
               </Grid>

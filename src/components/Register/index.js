@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  Avatar,
   Button,
   CssBaseline,
   TextField,
@@ -16,7 +15,6 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 
 // File Imports
@@ -45,7 +43,7 @@ const Register = (props) => {
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <img src='icon.png' className={classes.logoImage} />
+          <img src='icon.png' className={classes.logoImage} alt={'Icon'} />
           <Typography component='h1' variant='h5'>
             Sign up
           </Typography>
