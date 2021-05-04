@@ -2,16 +2,18 @@ import React from 'react';
 import { Route , Redirect } from 'react-router-dom';
 
 const PrivateRoute = (props) => {
-  const { component: Component, authToken, ...rest } = props;
+  const { component: Component, ...rest } = props;
+  const authToken = localStorage.getItem('authToken');
+  if (authToken !== 'null') {
+    return (
+      <Route
+        {...rest}
+        render={(props) => <Component {...props} />}
+      />
+    )
+  }
   return (
-    <Route
-      {...rest}
-      render={(props) => {
-        authToken && authToken !== undefined 
-          ? <Component {...props} />
-          : <Redirect to="login" />
-      }}
-    />
+    <Redirect to='/login' />
   )
 }
 

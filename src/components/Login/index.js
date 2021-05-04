@@ -69,7 +69,7 @@ const Login = (props) => {
             variant='contained'
             color='primary'
             className={classes.submit}
-            onClick={() => userLogin(email, password, history)}
+            onClick={() => userLogin({email, password}, history)}
           >
             Sign In
           </Button>
@@ -80,7 +80,7 @@ const Login = (props) => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <Link href='/register' variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -91,16 +91,10 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    authToken: state.user.authToken,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    userLogin: (email, password, history) => dispatch(userLogin(email, password, history)),
+    userLogin: (userInfo, history) => dispatch(userLogin(userInfo, history)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
