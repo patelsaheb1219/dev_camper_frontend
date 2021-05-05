@@ -27,12 +27,6 @@ const theme = createMuiTheme({
 const checkUserLoggedIn = async () => {
   const authToken = localStorage.getItem("authToken");
   const pathName = window.location.pathname;
-  console.log('auth', authToken, pathName);
-  console.log('res', (pathName !== "/login" ||
-  pathName !== "/register" ||
-  pathName !== "/" ||
-  pathName !== "/forgotpassword") &&
-  authToken === null)
   if (
     (pathName !== "/login" &&
     pathName !== "/register" &&
