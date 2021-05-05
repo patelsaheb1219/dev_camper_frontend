@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import {
   Button,
   CssBaseline,
-  TextField,
   Grid,
   Typography,
   Container,
@@ -13,11 +12,13 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  OutlinedInput
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // File Imports
-import { getLoggedInUser } from "../../redux/actions/userActions";
+import { getLoggedInUser, updateUserDetails } from "../../redux/actions/userActions";
 import { styleRules } from "./styles";
 
 //Default const
@@ -29,8 +30,9 @@ const capitalize = (string) => {
 };
 
 const Profile = (props) => {
-  const { getLoggedInUser, pageLoading } = props;
+  const { getLoggedInUser, pageLoading, updateUserDetails, buttonLoading } = props;
   const [user, setUser] = useState(null);
+  const [edit, setEdit] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -52,42 +54,50 @@ const Profile = (props) => {
     );
   }
 
+  const updateUser = async (e) => {
+    setEdit(true);
+    let updatedUser = user;
+    updatedUser = { ...updatedUser, [e.target.name]: e.target.value }
+    setUser(updatedUser);
+  }
+
   if (user) {
     return (
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Box mt={10} mb={10}>
           <div className={classes.paper}>
+            <AccountBoxIcon style={{ height: 100, width: 100 }} color="primary" />
             <Typography component='h1' variant='h5'>
               {`${capitalize(user.role)}'s Profile`}
             </Typography>
             <div className={classes.form}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    autoComplete='fname'
+                  <OutlinedInput
+                    autoComplete='name'
                     name='name'
                     variant='outlined'
                     required
                     fullWidth
                     id='name'
-                    label='Name'
+                    placeholder='Name'
                     autoFocus
                     value={user.name}
-                    // onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => updateUser(e)}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <OutlinedInput
                     variant='outlined'
                     required
                     fullWidth
                     id='email'
-                    label='Email Address'
+                    placeholder='Email Address'
                     name='email'
                     autoComplete='email'
                     value={user.email}
-                    // onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => updateUser(e)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -122,9 +132,15 @@ const Profile = (props) => {
                 variant='contained'
                 color='primary'
                 className={classes.submit}
-                onClick={() => console.log(user)}
+                onClick={async () => {
+                  await setEdit(false)
+                  updateUserDetails(user)
+                }}
+                disabled={!edit || buttonLoading}
               >
-                Update Details
+                {
+                  buttonLoading ? <CircularProgress size={25} /> : 'Update Details'
+                }
               </Button>
             </div>
           </div>
@@ -139,12 +155,14 @@ const Profile = (props) => {
 const mapStateToProps = (state) => {
   return {
     pageLoading: state.user.pageLoading,
+    buttonLoading: state.user.buttonLoading
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getLoggedInUser: () => dispatch(getLoggedInUser()),
+    updateUserDetails: (userInfo) => dispatch(updateUserDetails(userInfo))
   };
 };
 
