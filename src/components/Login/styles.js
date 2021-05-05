@@ -21,4 +21,8 @@ export const styleRules = (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  circularProgress: {
+    width: 25,
+    height: 25
+  }
 });

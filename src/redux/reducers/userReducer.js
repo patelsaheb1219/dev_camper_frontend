@@ -1,8 +1,9 @@
 // File Import
-import { AUTH_TOKEN } from '../../utils/types';
+import { AUTH_TOKEN, BUTTON_LOADING } from '../../utils/types';
 
 const initialState = {
-  authToken: undefined
+  authToken: null,
+  buttonLoading: false
 }
 
 const userReducer = (state=initialState, action) => {
@@ -12,6 +13,11 @@ const userReducer = (state=initialState, action) => {
         ...state,
         authToken: action.payload
       }
+    case BUTTON_LOADING:
+        return {
+          ...state,
+          buttonLoading: action.payload
+        }  
     default:
       return state;
   } 
