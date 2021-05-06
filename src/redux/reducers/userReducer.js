@@ -1,10 +1,11 @@
 // File Import
-import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING } from "../../utils/types";
+import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING, USER } from "../../utils/types";
 
 const initialState = {
   authToken: null,
   buttonLoading: false,
   pageLoading: false,
+  user: null
 };
 
 const userReducer = (state = initialState, action) => {
@@ -23,6 +24,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         pageLoading: action.payload
+      }
+    case USER:
+      return {
+        ...state,
+        user: action.payload
       }
     default:
       return state;

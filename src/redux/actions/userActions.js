@@ -2,7 +2,8 @@
 import axios from "axios";
 
 // File Imports
-import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING } from "../../utils/types";
+import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING, USER } from "../../utils/types";
+import { headers } from '../../utils/headers';
 
 // User Registration
 export const userRegistration = (userInfo, history) => async (dispatch) => {
@@ -88,29 +89,24 @@ export const getLoggedInUser = () => async (dispatch) => {
     type: PAGE_LOADING,
     payload: true,
   });
+  console.log('here')
   try {
-    const token = localStorage.getItem("authToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    const config = headers();
     const res = await axios.get(
       "https://developercamper.herokuapp.com/api/v1/auth/me",
       config
     );
     dispatch({
-      type: PAGE_LOADING,
-      payload: false,
-    });
-    return res.data.data;
+      type: USER,
+      payload: res.data.data
+    })
   } catch (err) {
-    dispatch({
-      type: PAGE_LOADING,
-      payload: false,
-    });
     console.error(err);
   }
+  dispatch({
+    type: PAGE_LOADING,
+    payload: false,
+  });
 };
 
 // Update User Details
@@ -120,12 +116,7 @@ export const updateUserDetails = (userInfo) => async (dispatch) => {
     payload: true,
   });
   try {
-    const token = localStorage.getItem("authToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    const config = headers();
     const res = await axios.put(
       "https://developercamper.herokuapp.com/api/v1/auth/updatedetails",
       userInfo,
