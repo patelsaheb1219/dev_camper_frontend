@@ -3,7 +3,6 @@ import axios from "axios";
 
 // File Imports
 import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING } from "../../utils/types";
-import setAuthToken from "../../utils/setHeaderToken";
 
 // User Registration
 export const userRegistration = (userInfo, history) => async (dispatch) => {
@@ -17,7 +16,6 @@ export const userRegistration = (userInfo, history) => async (dispatch) => {
       userInfo
     );
     await localStorage.setItem("authToken", res.data.token);
-    await setAuthToken(res.data.token);
     history.push("/home");
     dispatch({
       type: AUTH_TOKEN,
@@ -44,9 +42,7 @@ export const userLogin = (userInfo, history) => async (dispatch) => {
       userInfo
     );
     localStorage.setItem("authToken", res.data.token);
-    await setAuthToken(res.data.token);
     history.push("/home");
-    console.log(axios.defaults.headers);
     dispatch({
       type: AUTH_TOKEN,
       payload: res.data.token,
@@ -76,7 +72,6 @@ export const setUserToken = (token) => (dispatch) => {
 export const userLoggedOut = () => async (dispatch) => {
   try {
     await localStorage.removeItem("authToken");
-    await setAuthToken(false);
     window.location.href = "/login";
     dispatch({
       type: AUTH_TOKEN,

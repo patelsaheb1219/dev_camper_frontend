@@ -34,7 +34,6 @@ const checkUserLoggedIn = async () => {
     pathName !== "/forgotpassword") &&
     authToken === null
   ) {
-    console.log('here');
     window.location.href = "/login";
   }
   await store.dispatch(setUserToken(authToken));
