@@ -4,7 +4,7 @@ export const styleRules = (theme) => ({
   },
   containerImage: {
     height: 'auto', 
-    width: 350,
+    width: 450,
     marginBottom: 24
   }
 })

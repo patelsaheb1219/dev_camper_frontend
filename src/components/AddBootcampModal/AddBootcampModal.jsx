@@ -8,7 +8,6 @@ import {
   Button,
   Grid,
   OutlinedInput,
-  TextareaAutosize,
   Box,
   Radio,
   RadioGroup,
@@ -16,20 +15,21 @@ import {
   Typography,
   Select,
   MenuItem,
-  IconButton
+  IconButton,
+  CircularProgress,
 } from "@material-ui/core";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
 // File Imports
-import { styleRules } from './styles';
+import { styleRules } from "./styles";
 import { careerOptions } from "../../utils/careerOptions";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const AddBootcampModal = (props) => {
-  const { open, onClose } = props;
+  const { open, onClose, createBootcamp, buttonLoading } = props;
 
   const classes = useStyles();
   let newBootcamp = {
@@ -63,19 +63,36 @@ const AddBootcampModal = (props) => {
     setOptions(e.target.value);
   };
 
+  // Add New Bootcamp
+  const addNewBootcamp = async () => {
+    let finalBootcamp = bootcamp;
+    finalBootcamp = { ...finalBootcamp, careers: options };
+    await createBootcamp(finalBootcamp);
+    setBootcamp(newBootcamp);
+    onClose();
+  };
+
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby='customized-dialog-title'
       open={open}
     >
-      <DialogTitle id='customized-dialog-title' className={classes.root} onClose={handleClose}>
-      <Typography variant="h6">Add New Bootcamp</Typography>
+      <DialogTitle
+        id='customized-dialog-title'
+        className={classes.root}
+        onClose={handleClose}
+      >
+        <Typography variant='h6'>Add New Bootcamp</Typography>
         {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
+          <IconButton
+            aria-label='close'
+            className={classes.closeButton}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
       </DialogTitle>
       <DialogContent dividers>
         <Grid container direction={"column"}>
@@ -87,7 +104,7 @@ const AddBootcampModal = (props) => {
                 onChange={(e) => updateField(e)}
                 value={bootcamp.name}
                 fullWidth
-                margin={'dense'}
+                margin={"dense"}
                 autoFocus
               />
             </Box>
@@ -95,10 +112,12 @@ const AddBootcampModal = (props) => {
 
           <Grid item>
             <Box m={1}>
-              <TextareaAutosize
+              <OutlinedInput
                 name='description'
                 rowsMin={4}
                 cols={48}
+                multiline
+                fullWidth
                 placeholder='Description'
                 onChange={(e) => updateField(e)}
                 value={bootcamp.description}
@@ -114,7 +133,7 @@ const AddBootcampModal = (props) => {
                 onChange={(e) => updateField(e)}
                 value={bootcamp.website}
                 fullWidth
-                margin={'dense'}
+                margin={"dense"}
               />
             </Box>
           </Grid>
@@ -128,7 +147,7 @@ const AddBootcampModal = (props) => {
                   onChange={(e) => updateField(e)}
                   value={bootcamp.email}
                   fullWidth
-                  margin={'dense'}
+                  margin={"dense"}
                 />
               </Box>
             </Grid>
@@ -140,7 +159,7 @@ const AddBootcampModal = (props) => {
                   onChange={(e) => updateField(e)}
                   value={bootcamp.phone}
                   fullWidth
-                  margin={'dense'}
+                  margin={"dense"}
                 />
               </Box>
             </Grid>
@@ -154,7 +173,7 @@ const AddBootcampModal = (props) => {
                 onChange={(e) => updateField(e)}
                 value={bootcamp.address}
                 fullWidth
-                margin={'dense'}
+                margin={"dense"}
               />
             </Box>
           </Grid>
@@ -166,9 +185,13 @@ const AddBootcampModal = (props) => {
                 multiple
                 value={options}
                 onChange={(e) => updateOptions(e)}
-                input={<OutlinedInput fullWidth margin={'dense'} placeholder={'H'} />}
+                input={
+                  <OutlinedInput fullWidth margin={"dense"} placeholder={"H"} />
+                }
               >
-                <MenuItem value="" disabled>Career Options</MenuItem>
+                <MenuItem value='' disabled>
+                  Career Options
+                </MenuItem>
                 {careerOptions.map((option) => (
                   <MenuItem key={option.key} value={option.value}>
                     {option.key}
@@ -298,8 +321,8 @@ const AddBootcampModal = (props) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color='primary' variant={'outlined'}>
-          ADD
+        <Button onClick={() => addNewBootcamp()} color='primary' variant={"outlined"}>
+          {buttonLoading ? <CircularProgress size={25} /> : 'ADD'}
         </Button>
       </DialogActions>
     </Dialog>

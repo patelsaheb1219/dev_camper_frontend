@@ -1,11 +1,13 @@
 // Module Imports
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Container, Grid, Box, Typography, Fab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 
 // File Imports
 import { styleRules } from "./styles";
+import { createBootcamp } from '../../redux/actions/bootcampActions';
 
 // Import Add/Update Bootcamp modal
 import AddBootcampModal from "../AddBootcampModal";
@@ -13,7 +15,8 @@ import AddBootcampModal from "../AddBootcampModal";
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
-const Home = () => {
+const Home = (props) => {
+  const { createBootcamp, buttonLoading } = props;
   const classes = useStyles();
   const [addModal, setAddModal] = useState(false);
 
@@ -24,6 +27,8 @@ const Home = () => {
         open={addModal}
         buttonText={"Add"}
         onClose={() => setAddModal(false)}
+        createBootcamp={createBootcamp}
+        buttonLoading={buttonLoading}
       />
     );
   };
@@ -44,11 +49,11 @@ const Home = () => {
               className={classes.containerImage}
               alt={"Header"}
             />
-            <Typography>
+            <Typography variant={'h6'}>
               To begin your journey with the <b>DevCamper</b> platform to teach
               new technologies to the real world start your career by
             </Typography>
-            <Typography>
+            <Typography variant={'h6'}>
               Creating a{" "}
               <b>
                 <i>new Bootcamp</i>
@@ -72,4 +77,17 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    buttonLoading: state.user.buttonLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createBootcamp: (bootcamp) => dispatch(createBootcamp(bootcamp))
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
