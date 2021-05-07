@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // File Imports
-import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING, USER } from "../../utils/types";
+import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING } from "../../utils/types";
 import { headers } from '../../utils/headers';
 
 // User Registration
@@ -97,16 +97,18 @@ export const getLoggedInUser = () => async (dispatch) => {
       config
     );
     dispatch({
-      type: USER,
-      payload: res.data.data
-    })
+      type: PAGE_LOADING,
+      payload: false,
+    });
+    return res.data.data;
   } catch (err) {
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
     console.error(err);
   }
-  dispatch({
-    type: PAGE_LOADING,
-    payload: false,
-  });
+ 
 };
 
 // Update User Details
