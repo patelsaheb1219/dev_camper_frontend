@@ -7,3 +7,5 @@ export const PAGE_LOADING = 'PAGE_LOADING';
 export const USER = 'USER';
 
 export const BOOTCAMP = 'BOOTCAMP';
+
+export const COURSES = 'COURSES';

@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { styleRules } from "./styles";
 import {
   createBootcamp,
+  fetchBootcampCourses,
   fetchUserBootcamp,
 } from "../../redux/actions/bootcampActions";
 
@@ -30,11 +31,14 @@ const Home = (props) => {
     createBootcamp,
     buttonLoading,
     fetchUserBootcamp,
+    fetchBootcampCourses,
     bootcamp,
+    courses,
     pageLoading,
   } = props;
   const classes = useStyles();
-  const [addModal, setAddModal] = useState(false);
+  const [addBootcampModal, setAddBootcampModal] = useState(false);
+  const [addCourseModal, setAddCourseModal] = useState(false);
 
   useEffect(() => {
     const fetchBootcamp = async () => {
@@ -44,18 +48,40 @@ const Home = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (bootcamp && bootcamp.id) {
+        await fetchBootcampCourses(bootcamp.id);
+      }
+    };
+    fetchCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bootcamp]);
+
   // Open/Close bootcamp Modal
-  const addBootcampModal = () => {
+  const addNewBootcampModal = () => {
     return (
       <AddBootcampModal
-        open={addModal}
+        open={addBootcampModal}
         buttonText={"Add"}
-        onClose={() => setAddModal(false)}
+        onClose={() => setAddBootcampModal(false)}
         createBootcamp={createBootcamp}
         buttonLoading={buttonLoading}
       />
     );
   };
+
+  const addNewCourseModal = () => {
+    return (
+      <AddBootcampModal
+        open={addCourseModal}
+        buttonText={"Add"}
+        onClose={() => setAddCourseModal(false)}
+        createBootcamp={createBootcamp}
+        buttonLoading={buttonLoading}
+      />
+    );
+  }
 
   if (pageLoading) {
     return (
@@ -97,21 +123,23 @@ const Home = (props) => {
                 <Fab
                   color='primary'
                   aria-label='add'
-                  onClick={() => setAddModal(true)}
+                  onClick={() => setAddBootcampModal(true)}
                 >
                   <AddIcon />
                 </Fab>
               </Box>
             </Box>
           </Grid>
-          {addBootcampModal()}
+          {addNewBootcampModal()}
         </Grid>
       </Container>
     );
   }
 
-  if (bootcamp) return <Container>
-    <Grid
+  if (bootcamp && courses && courses.length === 0)
+    return (
+      <Container>
+        <Grid
           container
           direction={"row"}
           justify={"center"}
@@ -125,30 +153,30 @@ const Home = (props) => {
                 className={classes.containerImage}
                 alt={"Header"}
               />
-              <Typography variant={"h6"}>
-                Add Your course
-              </Typography>
+              <Typography variant={"h6"}>Add Your course</Typography>
               <Box mt={3}>
                 <Fab
                   color='primary'
                   aria-label='add'
-                  onClick={() => setAddModal(true)}
+                  onClick={() => setAddCourseModal(true)}
                 >
                   <AddIcon />
                 </Fab>
               </Box>
             </Box>
           </Grid>
-          {addBootcampModal()}
+          {addNewCourseModal()}
         </Grid>
-  </Container>;
+      </Container>
+    );
 };
 
 const mapStateToProps = (state) => {
   return {
     buttonLoading: state.user.buttonLoading,
-    bootcamp: state.bootcamp.bootcamp,
     pageLoading: state.user.pageLoading,
+    bootcamp: state.bootcamp.bootcamp,
+    courses: state.bootcamp.courses
   };
 };
 
@@ -156,6 +184,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createBootcamp: (bootcamp) => dispatch(createBootcamp(bootcamp)),
     fetchUserBootcamp: () => dispatch(fetchUserBootcamp()),
+    fetchBootcampCourses: (id) => dispatch(fetchBootcampCourses(id))
   };
 };
 
