@@ -1,5 +1,5 @@
 // File Import
-// import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING, USER } from "../../utils/types";
+import { BOOTCAMP } from "../../utils/types";
 
 const initialState = {
   bootcamp: null
@@ -7,6 +7,11 @@ const initialState = {
 
 const bootcampReducer = (state = initialState, action) => {
   switch (action.type) {
+    case BOOTCAMP:
+      return {
+        ...state,
+        bootcamp: action.payload
+      }
     default:
       return state;
   }
