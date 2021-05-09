@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { SnackbarProvider } from "notistack";
 
 // Action Imports
 import { setUserToken } from "./redux/actions/userActions";
 
 // Root Component Import
-import Root from './layouts/Root';
+import Root from "./layouts/Root";
 
 // Redux Store Import
 import store from "./redux/store";
@@ -22,8 +23,8 @@ const theme = createMuiTheme({
       main: "#11cb5f",
     },
     background: {
-      default: '#fafafa'
-    }
+      default: "#fafafa",
+    },
   },
 });
 
@@ -31,10 +32,10 @@ const checkUserLoggedIn = async () => {
   const authToken = localStorage.getItem("authToken");
   const pathName = window.location.pathname;
   if (
-    (pathName !== "/login" &&
+    pathName !== "/login" &&
     pathName !== "/register" &&
     pathName !== "/" &&
-    pathName !== "/forgotpassword") &&
+    pathName !== "/forgotpassword" &&
     authToken === null
   ) {
     window.location.href = "/login";
@@ -49,9 +50,11 @@ const App = () => {
   }, []);
   return (
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Root />
-      </Provider>
+      <SnackbarProvider maxSnack={2} hideIconVariant={false}>
+        <Provider store={store}>
+          <Root />
+        </Provider>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };
