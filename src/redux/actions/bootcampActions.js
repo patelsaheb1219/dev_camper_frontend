@@ -1,5 +1,14 @@
+// Module Import
 import axios from "axios";
-import { BOOTCAMP, BUTTON_LOADING, PAGE_LOADING, COURSES } from "../../utils/types";
+
+// File Import
+import store from '../store';
+import {
+  BOOTCAMP,
+  BUTTON_LOADING,
+  PAGE_LOADING,
+  COURSES,
+} from "../../utils/types";
 import { headers } from "../../utils/headers";
 
 export const createBootcamp = (bootcamp) => async (dispatch) => {
@@ -15,8 +24,8 @@ export const createBootcamp = (bootcamp) => async (dispatch) => {
     );
     dispatch({
       type: BOOTCAMP,
-      payload: res.data.data
-    })
+      payload: res.data.data,
+    });
   } catch (err) {
     console.error(err);
   }
@@ -26,44 +35,78 @@ export const createBootcamp = (bootcamp) => async (dispatch) => {
   });
 };
 
-export const fetchUserBootcamp = () => async dispatch => {
+export const fetchUserBootcamp = () => async (dispatch) => {
   dispatch({
     type: PAGE_LOADING,
-    payload: true
-  })
+    payload: true,
+  });
   try {
     const config = headers();
-    const response = await axios.get('https://developercamper.herokuapp.com/api/v1/bootcamps/users', config)
+    const response = await axios.get(
+      "https://developercamper.herokuapp.com/api/v1/bootcamps/users",
+      config
+    );
     dispatch({
       type: BOOTCAMP,
-      payload: response.data.data
-    })
+      payload: response.data.data,
+    });
   } catch (err) {
     console.error(err);
   }
   dispatch({
     type: PAGE_LOADING,
-    payload: false
-  })
-}
+    payload: false,
+  });
+};
 
-export const fetchBootcampCourses = (bootcampId) => async dispatch => {
+export const fetchBootcampCourses = (bootcampId) => async (dispatch) => {
   dispatch({
     type: PAGE_LOADING,
-    payload: true
-  })
+    payload: true,
+  });
   try {
     const config = headers();
-    const response = await axios.get(`https://developercamper.herokuapp.com/api/v1/bootcamps/${bootcampId}/courses`, config);
+    const response = await axios.get(
+      `https://developercamper.herokuapp.com/api/v1/bootcamps/${bootcampId}/courses`,
+      config
+    );
     dispatch({
       type: COURSES,
-      payload: response.data.data
+      payload: response.data.data,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+  dispatch({
+    type: PAGE_LOADING,
+    payload: false,
+  });
+};
+
+export const createCourse = (course) => async (dispatch) => {
+  dispatch({
+    type: PAGE_LOADING,
+    payload: true,
+  });
+  try {
+    const config = headers();
+    const bootcamp = await store.getState().bootcamp.bootcamp;
+    const response = await axios.post(
+      `https://developercamper.herokuapp.com/api/v1/bootcamps/${bootcamp.id}/courses`,
+      course,
+      config
+    );
+    let courses = await store.getState().bootcamp.courses;
+    courses.push(response.data.data);
+    dispatch({
+      type: COURSES,
+      payload: courses
     })
   } catch (err) {
     console.error(err);
   }
   dispatch({
     type: PAGE_LOADING,
-    payload: false
-  })
-}
+    payload: false,
+  });
+};

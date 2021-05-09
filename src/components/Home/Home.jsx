@@ -18,10 +18,12 @@ import {
   createBootcamp,
   fetchBootcampCourses,
   fetchUserBootcamp,
+  createCourse,
 } from "../../redux/actions/bootcampActions";
 
 // Import Add/Update Bootcamp modal
 import AddBootcampModal from "../AddBootcampModal";
+import AddCourseModal from "../AddCourseModal";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
@@ -35,6 +37,7 @@ const Home = (props) => {
     bootcamp,
     courses,
     pageLoading,
+    createCourse,
   } = props;
   const classes = useStyles();
   const [addBootcampModal, setAddBootcampModal] = useState(false);
@@ -73,20 +76,28 @@ const Home = (props) => {
 
   const addNewCourseModal = () => {
     return (
-      <AddBootcampModal
+      <AddCourseModal
         open={addCourseModal}
         buttonText={"Add"}
         onClose={() => setAddCourseModal(false)}
-        createBootcamp={createBootcamp}
+        createCourse={createCourse}
         buttonLoading={buttonLoading}
       />
     );
-  }
+  };
 
-  if (pageLoading) {
+  if (pageLoading || buttonLoading) {
     return (
       <Container>
-        <CircularProgress />
+        <Box m={5}>
+          <Grid container alignItems={"center"} justify={"center"}>
+            <Grid item>
+              <CircularProgress />
+            </Grid>
+          </Grid>
+        </Box>
+        {addNewBootcampModal()}
+        {addNewCourseModal()}
       </Container>
     );
   }
@@ -153,7 +164,7 @@ const Home = (props) => {
                 className={classes.containerImage}
                 alt={"Header"}
               />
-              <Typography variant={"h6"}>Add Your course</Typography>
+              <Typography variant={"h6"}>Add New course</Typography>
               <Box mt={3}>
                 <Fab
                   color='primary'
@@ -169,6 +180,20 @@ const Home = (props) => {
         </Grid>
       </Container>
     );
+  
+  if (courses && courses.length > 0) {
+    return (
+      <Container>
+        {
+          courses.map(course => {
+            return <Container>
+              <Typography>{course.title}</Typography>
+            </Container>  
+          })
+        }
+      </Container>
+    )
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -176,7 +201,7 @@ const mapStateToProps = (state) => {
     buttonLoading: state.user.buttonLoading,
     pageLoading: state.user.pageLoading,
     bootcamp: state.bootcamp.bootcamp,
-    courses: state.bootcamp.courses
+    courses: state.bootcamp.courses,
   };
 };
 
@@ -184,7 +209,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createBootcamp: (bootcamp) => dispatch(createBootcamp(bootcamp)),
     fetchUserBootcamp: () => dispatch(fetchUserBootcamp()),
-    fetchBootcampCourses: (id) => dispatch(fetchBootcampCourses(id))
+    fetchBootcampCourses: (id) => dispatch(fetchBootcampCourses(id)),
+    createCourse: (course) => dispatch(createCourse(course)),
   };
 };
 

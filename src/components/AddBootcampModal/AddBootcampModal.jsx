@@ -39,7 +39,7 @@ const AddBootcampModal = (props) => {
     phone: "",
     email: "",
     address: "",
-    careers: [],
+    careers: [''],
     housing: false,
     jobAssistance: false,
     jobGuarantee: false,
@@ -75,7 +75,6 @@ const AddBootcampModal = (props) => {
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby='customized-dialog-title'
       open={open}
     >
       <DialogTitle
@@ -182,16 +181,22 @@ const AddBootcampModal = (props) => {
             <Box m={1}>
               <Select
                 name='careers'
-                multiple
                 value={options}
                 onChange={(e) => updateOptions(e)}
                 input={
-                  <OutlinedInput fullWidth margin={"dense"} placeholder={"H"} />
+                  <OutlinedInput fullWidth margin={"dense"} />
                 }
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Career Options</em>;
+                  }
+      
+                  return selected.join(', ');
+                }}
+                multiple
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}
               >
-                <MenuItem value='' disabled>
-                  Career Options
-                </MenuItem>
                 {careerOptions.map((option) => (
                   <MenuItem key={option.key} value={option.value}>
                     {option.key}
@@ -216,14 +221,14 @@ const AddBootcampModal = (props) => {
                       <FormControlLabel
                         value='true'
                         control={<Radio color='primary' />}
-                        label='True'
+                        label='Yes'
                       />
                     </Grid>
                     <Grid item>
                       <FormControlLabel
                         value='false'
                         control={<Radio color='primary' />}
-                        label='False'
+                        label='No'
                       />
                     </Grid>
                   </Grid>
@@ -244,14 +249,14 @@ const AddBootcampModal = (props) => {
                       <FormControlLabel
                         value='true'
                         control={<Radio color='primary' />}
-                        label='True'
+                        label='Yes'
                       />
                     </Grid>
                     <Grid item>
                       <FormControlLabel
                         value='false'
                         control={<Radio color='primary' />}
-                        label='False'
+                        label='No'
                       />
                     </Grid>
                   </Grid>
@@ -275,14 +280,14 @@ const AddBootcampModal = (props) => {
                       <FormControlLabel
                         value='true'
                         control={<Radio color='primary' />}
-                        label='True'
+                        label='Yes'
                       />
                     </Grid>
                     <Grid item>
                       <FormControlLabel
                         value='false'
                         control={<Radio color='primary' />}
-                        label='False'
+                        label='No'
                       />
                     </Grid>
                   </Grid>
@@ -303,14 +308,14 @@ const AddBootcampModal = (props) => {
                       <FormControlLabel
                         value='true'
                         control={<Radio color='primary' />}
-                        label='True'
+                        label='Yes'
                       />
                     </Grid>
                     <Grid item>
                       <FormControlLabel
                         value='false'
                         control={<Radio color='primary' />}
-                        label='False'
+                        label='No'
                       />
                     </Grid>
                   </Grid>

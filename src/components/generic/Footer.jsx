@@ -5,6 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // Default Style Const
 const useStyles = makeStyles((theme) => ({
+  positionFixed: {
+    top: 'auto',
+    bottom: 0
+  },
   footerText: {
     color: "#fff",
     fontWeight: 600,
@@ -15,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
   return (
-    <AppBar position='static'>
+    <AppBar position='fixed' classes={{ positionFixed: classes.positionFixed }}>
       <Toolbar>
         <Grid container direction='row' justify='center' alignItems='center'>
           <Grid item>

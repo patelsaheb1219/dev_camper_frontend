@@ -2,7 +2,8 @@
 import { BOOTCAMP, COURSES } from "../../utils/types";
 
 const initialState = {
-  bootcamp: null
+  bootcamp: null,
+  courses: []
 };
 
 const bootcampReducer = (state = initialState, action) => {
