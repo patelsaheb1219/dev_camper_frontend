@@ -26,13 +26,17 @@ export const createBootcamp = (bootcamp) => async (dispatch) => {
       type: BOOTCAMP,
       payload: res.data.data,
     });
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
   } catch (err) {
-    console.error(err);
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+    throw err;
   }
-  dispatch({
-    type: BUTTON_LOADING,
-    payload: false,
-  });
 };
 
 export const fetchUserBootcamp = () => async (dispatch) => {
@@ -74,13 +78,17 @@ export const fetchBootcampCourses = (bootcampId) => async (dispatch) => {
       type: COURSES,
       payload: response.data.data,
     });
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
   } catch (err) {
-    console.error(err);
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
+    throw err;
   }
-  dispatch({
-    type: PAGE_LOADING,
-    payload: false,
-  });
 };
 
 export const createCourse = (course) => async (dispatch) => {
@@ -102,11 +110,15 @@ export const createCourse = (course) => async (dispatch) => {
       type: COURSES,
       payload: courses
     })
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
   } catch (err) {
-    console.error(err);
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
+    throw err;
   }
-  dispatch({
-    type: PAGE_LOADING,
-    payload: false,
-  });
 };

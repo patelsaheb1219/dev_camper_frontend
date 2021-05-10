@@ -27,24 +27,24 @@ import { careerOptions } from "../../utils/careerOptions";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
+let newBootcamp = {
+  name: "",
+  description: "",
+  website: "",
+  phone: "",
+  email: "",
+  address: "",
+  careers: [''],
+  housing: false,
+  jobAssistance: false,
+  jobGuarantee: false,
+  acceptGi: false,
+};
 
 const AddBootcampModal = (props) => {
   const { open, onClose, createBootcamp, buttonLoading } = props;
 
   const classes = useStyles();
-  let newBootcamp = {
-    name: "",
-    description: "",
-    website: "",
-    phone: "",
-    email: "",
-    address: "",
-    careers: [''],
-    housing: false,
-    jobAssistance: false,
-    jobGuarantee: false,
-    acceptGi: false,
-  };
 
   const [bootcamp, setBootcamp] = useState(newBootcamp);
   const [options, setOptions] = useState([]);
@@ -68,8 +68,6 @@ const AddBootcampModal = (props) => {
     let finalBootcamp = bootcamp;
     finalBootcamp = { ...finalBootcamp, careers: options };
     await createBootcamp(finalBootcamp);
-    setBootcamp(newBootcamp);
-    onClose();
   };
 
   return (

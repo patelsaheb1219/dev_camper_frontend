@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, Link } from "react-router-dom";
 import { Container, AppBar, Toolbar, Button } from "@material-ui/core";
+import { useSnackbar } from 'notistack';
 
 // File Import
 import { userLoggedOut } from '../../redux/actions/userActions';
@@ -18,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     color: "white",
-    "&:hover": {
-      textDecoration: "none",
-    },
+    textDecoration: "none",
+    fontSize: 20,
+    fontWeight: 700,
     cursor: "pointer",
   },
   linkText: {
@@ -29,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     textTransform: "uppercase",
     paddingLeft: 10,
-    "&:hover": {
-      textDecoration: "none",
-    },
+    textDecoration: "none",
   },
 }));
 
@@ -39,6 +38,20 @@ const UserNavbar = (props) => {
   const { userLoggedOut } = props;
   const classes = useStyles();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const onUserLoggedOut = async () => {
+    try {
+      await userLoggedOut(history);
+      enqueueSnackbar("User Logged Out Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar('Something wrong happend', {
+        variant: "error",
+      });
+    }
+  }
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -50,7 +63,7 @@ const UserNavbar = (props) => {
             <Link to='/profile' className={classes.linkText}>
               Profile
             </Link>
-            <Button color='inherit' onClick={() => userLoggedOut(history)}>Logout</Button>
+            <Button color='inherit' onClick={onUserLoggedOut}>Logout</Button>
           </Toolbar>
         </Container>
       </AppBar>

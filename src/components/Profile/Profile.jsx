@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import { useSnackbar } from 'notistack';
 
 // File Imports
 import { updateUserDetails } from "../../redux/actions/userActions";
@@ -32,6 +33,7 @@ const Profile = (props) => {
   const [user, setUser] = useState(userProfile);
   const [edit, setEdit] = useState(false);
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   if (pageLoading) {
     return (
@@ -48,6 +50,21 @@ const Profile = (props) => {
     let updatedUser = user;
     updatedUser = { ...updatedUser, [e.target.name]: e.target.value }
     setUser(updatedUser);
+  }
+
+  // Call Update User API
+  const updateExistingUser = async () => {
+    try {
+      await setEdit(false)
+      await updateUserDetails(user);
+      enqueueSnackbar("User Details Updated Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar(JSON.stringify(err.response.data.error).replace("[", "").replace("]", ""), {
+        variant: "error",
+      });
+    }
   }
 
   if (user) {
@@ -121,10 +138,7 @@ const Profile = (props) => {
                 variant='contained'
                 color='primary'
                 className={classes.submit}
-                onClick={async () => {
-                  await setEdit(false)
-                  updateUserDetails(user)
-                }}
+                onClick={updateExistingUser}
                 disabled={!edit || buttonLoading}
               >
                 {

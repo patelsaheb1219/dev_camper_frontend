@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     color: "white",
-    "&:hover": {
-      textDecoration: "none",
-    },
+    textDecoration: "none",
     cursor: "pointer",
+    fontSize: 20,
+    fontWeight: 700
   },
   linkText: {
     color: "white",
@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     textTransform: "uppercase",
     paddingLeft: 10,
-    "&:hover": {
-      textDecoration: "none",
-    },
+    textDecoration: "none",
   },
 }));
 

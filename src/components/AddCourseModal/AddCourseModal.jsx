@@ -57,8 +57,6 @@ const AddCourseModal = (props) => {
 
   const createNewCourse = async () => {
     await createCourse(course);
-    await setCourse(newCourse);
-    await onClose(false)
   }
 
   return (

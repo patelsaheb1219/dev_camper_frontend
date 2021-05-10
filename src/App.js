@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { createMuiTheme } from "@material-ui/core/styles";
+import { Slide } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { SnackbarProvider } from "notistack";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -40,7 +41,7 @@ const checkUserLoggedIn = async () => {
     window.location.href = "/login";
   }
   if (user) {
-    await store.dispatch(setUser(JSON.parse(localStorage.getItem('user'))))
+    await store.dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
   }
   await store.dispatch(setUserToken(authToken));
 };
@@ -53,7 +54,14 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={2}>
+        <SnackbarProvider
+          maxSnack={2}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          TransitionComponent={Slide}
+        >
           <Provider store={store}>
             <Root />
           </Provider>

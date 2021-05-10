@@ -16,6 +16,7 @@ import {
   Radio,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSnackbar } from "notistack";
 
 // File Imports
 import { styleRules } from "./styles";
@@ -32,10 +33,31 @@ const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
+  const { enqueueSnackbar } = useSnackbar();
 
   // Role function
   const handleRadioChange = (event) => {
     setRole(event.target.value);
+  };
+
+  const newUserRegistration = async () => {
+    try {
+      await userRegistration({
+          name,
+          email,
+          password,
+          role,
+        },
+        history
+      );
+      enqueueSnackbar("User Registered Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar(JSON.stringify(err.response.data.error).replace("[", "").replace("]", ""), {
+        variant: "error",
+      });
+    }
   };
 
   return (
@@ -43,7 +65,7 @@ const Register = (props) => {
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <img src='icon.png' className={classes.logoImage} alt={'Icon'} />
+          <img src='icon.png' className={classes.logoImage} alt={"Icon"} />
           <Typography component='h1' variant='h5'>
             Sign up
           </Typography>
@@ -119,17 +141,7 @@ const Register = (props) => {
               variant='contained'
               color='primary'
               className={classes.submit}
-              onClick={() =>
-                userRegistration(
-                  {
-                    name,
-                    email,
-                    password,
-                    role
-                  },
-                  history
-                )
-              }
+              onClick={newUserRegistration}
             >
               Sign Up
             </Button>

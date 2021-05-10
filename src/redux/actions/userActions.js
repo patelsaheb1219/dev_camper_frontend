@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // File Imports
-import { AUTH_TOKEN, BUTTON_LOADING, PAGE_LOADING, USER } from "../../utils/types";
+import { AUTH_TOKEN, BUTTON_LOADING, USER } from "../../utils/types";
 import { headers } from '../../utils/headers';
 
 // User Registration
@@ -22,13 +22,17 @@ export const userRegistration = (userInfo, history) => async (dispatch) => {
       type: USER,
       payload: res.data.user
     })
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
   } catch (err) {
-    console.error(err);
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+    throw err;
   }
-  dispatch({
-    type: BUTTON_LOADING,
-    payload: false,
-  });
 };
 
 // // User Login
@@ -100,34 +104,8 @@ export const userLoggedOut = () => async (dispatch) => {
       payload: null,
     });
   } catch (err) {
-    console.error(err);
+    throw err;
   }
-};
-
-// Get Logged In user details
-export const getLoggedInUser = () => async (dispatch) => {
-  dispatch({
-    type: PAGE_LOADING,
-    payload: true,
-  });
-  try {
-    const res = await axios.get(
-      "https://developercamper.herokuapp.com/api/v1/auth/me",
-      await headers()
-    );
-    dispatch({
-      type: PAGE_LOADING,
-      payload: false,
-    });
-    return res.data.data;
-  } catch (err) {
-    dispatch({
-      type: PAGE_LOADING,
-      payload: false,
-    });
-    console.error(err);
-  }
- 
 };
 
 // Update User Details
@@ -137,16 +115,26 @@ export const updateUserDetails = (userInfo) => async (dispatch) => {
     payload: true,
   });
   try {
-    await axios.put(
+    const response = await axios.put(
       "https://developercamper.herokuapp.com/api/v1/auth/updatedetails",
       userInfo,
       await headers()
     );
+    await localStorage.setItem("user", JSON.stringify(response.data.data))
+    dispatch({
+      type: USER,
+      payload: response.data.data
+    })
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
   } catch (err) {
-    console.error(err);
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+    throw err;
   }
-  dispatch({
-    type: BUTTON_LOADING,
-    payload: false,
-  });
+  
 };
