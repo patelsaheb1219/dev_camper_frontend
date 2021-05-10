@@ -2,8 +2,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import { Container, AppBar, Toolbar, Button, Link } from "@material-ui/core";
+import { useHistory, Link } from "react-router-dom";
+import { Container, AppBar, Toolbar, Button } from "@material-ui/core";
 
 // File Import
 import { userLoggedOut } from '../../redux/actions/userActions';
@@ -44,10 +44,10 @@ const UserNavbar = (props) => {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Link href={"/home"} variant='h6' className={classes.title}>
+            <Link to={"/home"} variant='h6' className={classes.title}>
               DevCamper
             </Link>
-            <Link href='/profile' className={classes.linkText}>
+            <Link to='/profile' className={classes.linkText}>
               Profile
             </Link>
             <Button color='inherit' onClick={() => userLoggedOut(history)}>Logout</Button>

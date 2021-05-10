@@ -1,5 +1,5 @@
 // Module Imports
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   Button,
@@ -18,31 +18,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // File Imports
-import { getLoggedInUser, updateUserDetails } from "../../redux/actions/userActions";
+import { updateUserDetails } from "../../redux/actions/userActions";
+import { capitalize } from "../../utils/general";
 import { styleRules } from "./styles";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
-// First Letter Capital
-const capitalize = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
+
 
 const Profile = (props) => {
-  const { getLoggedInUser, pageLoading, updateUserDetails, buttonLoading } = props;
-  const [user, setUser] = useState(null);
+  const { pageLoading, updateUserDetails, buttonLoading, userProfile } = props;
+  const [user, setUser] = useState(userProfile);
   const [edit, setEdit] = useState(false);
   const classes = useStyles();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await getLoggedInUser();
-      setUser(res);
-    };
-    fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (pageLoading) {
     return (
@@ -155,13 +144,13 @@ const Profile = (props) => {
 const mapStateToProps = (state) => {
   return {
     pageLoading: state.user.pageLoading,
-    buttonLoading: state.user.buttonLoading
+    buttonLoading: state.user.buttonLoading,
+    userProfile: state.user.user
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getLoggedInUser: () => dispatch(getLoggedInUser()),
     updateUserDetails: (userInfo) => dispatch(updateUserDetails(userInfo))
   };
 };

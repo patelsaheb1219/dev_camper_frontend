@@ -4,9 +4,10 @@ import { Provider } from "react-redux";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { SnackbarProvider } from "notistack";
+import { BrowserRouter as Router } from "react-router-dom";
 
 // Action Imports
-import { setUserToken } from "./redux/actions/userActions";
+import { setUserToken, setUser } from "./redux/actions/userActions";
 
 // Root Component Import
 import Root from "./layouts/Root";
@@ -19,9 +20,6 @@ const theme = createMuiTheme({
     primary: {
       main: "#2076D2",
     },
-    secondary: {
-      main: "#11cb5f",
-    },
     background: {
       default: "#fafafa",
     },
@@ -30,6 +28,7 @@ const theme = createMuiTheme({
 
 const checkUserLoggedIn = async () => {
   const authToken = localStorage.getItem("authToken");
+  const user = localStorage.getItem("user");
   const pathName = window.location.pathname;
   if (
     pathName !== "/login" &&
@@ -40,6 +39,9 @@ const checkUserLoggedIn = async () => {
   ) {
     window.location.href = "/login";
   }
+  if (user) {
+    await store.dispatch(setUser(JSON.parse(localStorage.getItem('user'))))
+  }
   await store.dispatch(setUserToken(authToken));
 };
 
@@ -49,13 +51,15 @@ const App = () => {
     checkUserLoggedIn();
   }, []);
   return (
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider maxSnack={2} hideIconVariant={false}>
-        <Provider store={store}>
-          <Root />
-        </Provider>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={2}>
+          <Provider store={store}>
+            <Root />
+          </Provider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </Router>
   );
 };
 

@@ -48,7 +48,6 @@ const AddCourseModal = (props) => {
   const updateField = async (e) => {
     let udpatedCourse = course;
     udpatedCourse = { ...udpatedCourse, [e.target.name]: e.target.value };
-    console.log('udpatedCourse', udpatedCourse);
     await setCourse(udpatedCourse);
   };
 

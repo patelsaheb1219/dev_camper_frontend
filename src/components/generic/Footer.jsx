@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
   return (
-    <AppBar position='fixed' classes={{ positionFixed: classes.positionFixed }}>
+    <AppBar position='static'>
       <Toolbar>
         <Grid container direction='row' justify='center' alignItems='center'>
           <Grid item>

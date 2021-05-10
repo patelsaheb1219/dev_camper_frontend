@@ -11,9 +11,10 @@ import {
   Container,
   Link,
   Box,
-  CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSnackbar } from 'notistack';
 
 // File Imports
 import { userLogin } from "../../redux/actions/userActions";
@@ -24,16 +25,30 @@ const useStyles = makeStyles((theme) => styleRules(theme));
 
 const Login = (props) => {
   const { userLogin, buttonLoading } = props;
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+
+  const userLoggedIn = async () => {
+    try {
+      await userLogin({ email, password }, history);
+      enqueueSnackbar("User Logged In Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar(err.response.data.error, {
+        variant: "error",
+      });
+    }
+  };
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <Box mb={5}>
         <div className={classes.paper}>
-          <img src='icon.png' className={classes.logoImage} alt={'Icon'} />
+          <img src='icon.png' className={classes.logoImage} alt={"Icon"} />
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
@@ -68,15 +83,10 @@ const Login = (props) => {
               variant='contained'
               color='primary'
               className={classes.submit}
-              onClick={() => userLogin({ email, password }, history)}
+              onClick={userLoggedIn}
               disabled={buttonLoading}
             >
-              {
-                buttonLoading ? (
-                  <CircularProgress size={25} />
-                ) : 'Sign In'
-              }
-              
+              {buttonLoading ? <CircularProgress size={25} /> : "Sign In"}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -97,11 +107,11 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    buttonLoading: state.user.buttonLoading
-  }
-}
+    buttonLoading: state.user.buttonLoading,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

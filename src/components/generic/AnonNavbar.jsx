@@ -1,7 +1,8 @@
 // Module Imports
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, AppBar, Toolbar, Link } from "@material-ui/core";
+import { Container, AppBar, Toolbar } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,16 +40,16 @@ const AnonNavbar = () => {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Link href={"/"} variant='h6' className={classes.title}>
+            <Link to={"/"} variant='h6' className={classes.title}>
               DevCamper
             </Link>
             {pathname !== "/login" ? (
-              <Link href='/login' className={classes.linkText}>
+              <Link to='/login' className={classes.linkText}>
                 Login
               </Link>
             ) : null}
             {pathname !== "/register" ? (
-              <Link href='/register' className={classes.linkText}>
+              <Link to='/register' className={classes.linkText}>
                 Register
               </Link>
             ) : null}

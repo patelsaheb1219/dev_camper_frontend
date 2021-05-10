@@ -125,6 +125,7 @@ const Register = (props) => {
                     name,
                     email,
                     password,
+                    role
                   },
                   history
                 )
