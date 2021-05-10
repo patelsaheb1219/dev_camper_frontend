@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => styleRules(theme));
 const AddCourseModal = (props) => {
   // Props from parent Component
   const { open, onClose, buttonLoading, createCourse } = props;
-
   // Default Course object
   let newCourse = {
     title: "",
@@ -167,7 +166,7 @@ const AddCourseModal = (props) => {
               <Typography>Scholarhips Available</Typography>
               <RadioGroup
                 aria-label=''
-                name='housing'
+                name='scholarshipAvailable'
                 value={course.scholarshipAvailable.toString()}
                 onChange={(e) => updateField(e)}
               >

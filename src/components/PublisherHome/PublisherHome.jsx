@@ -5,15 +5,11 @@ import {
   Container,
   Grid,
   Box,
-  Typography,
-  Fab,
   CircularProgress,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 
 // File Imports
-import { styleRules } from "./styles";
 import {
   createBootcamp,
   fetchBootcampCourses,
@@ -47,7 +43,9 @@ const PublisherHome = (props) => {
     const fetchBootcamp = async () => {
       await fetchUserBootcamp();
     };
-    fetchBootcamp();
+    if (!bootcamp) {
+      fetchBootcamp();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -153,7 +151,7 @@ const PublisherHome = (props) => {
       {bootcamp && courses && courses.length === 0 ? (
         <AddCourse setAddCourseModal={setAddCourseModal} />
       ) : null}
-      {courses && courses.length > 0 ? <AllCourses courses={courses} /> : null}
+      {courses && courses.length > 0 ? <AllCourses courses={courses} setAddCourseModal={setAddCourseModal} /> : null}
       {addNewBootcampModal()}
       {addNewCourseModal()}
     </React.Fragment>
