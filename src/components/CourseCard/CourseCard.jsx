@@ -12,7 +12,7 @@ import { capitalize } from "../../utils/general";
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const CourseCard = (props) => {
-  const { course, index } = props;
+  const { course, index, editCourse, setDeleteItem } = props;
   const classes = useStyles();
   
   return (
@@ -70,6 +70,7 @@ const CourseCard = (props) => {
                     variant='contained'
                     color='inherit'
                     startIcon={<EditIcon />}
+                    onClick={() => editCourse(course)}
                   >
                     Edit
                   </Button>
@@ -81,6 +82,7 @@ const CourseCard = (props) => {
                     variant='contained'
                     color='secondary'
                     startIcon={<DeleteIcon />}
+                    onClick={() => setDeleteItem(course._id)}
                   >
                     Delete
                   </Button>

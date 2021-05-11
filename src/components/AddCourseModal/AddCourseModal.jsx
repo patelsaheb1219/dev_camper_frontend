@@ -1,5 +1,5 @@
 // Module Imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -27,22 +27,32 @@ import { styleRules } from "./styles";
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
+// Default Course object
+let newCourse = {
+  title: "",
+  description: "",
+  weeks: "",
+  tuition: "",
+  minimumSkill: "",
+  scholarshipAvailable: false,
+};
+
 const AddCourseModal = (props) => {
   // Props from parent Component
-  const { open, onClose, buttonLoading, createCourse } = props;
-  // Default Course object
-  let newCourse = {
-    title: "",
-    description: "",
-    weeks: "",
-    tuition: "",
-    minimumSkill: "",
-    scholarshipAvailable: false,
-  };
+  const { open, onClose, buttonLoading, onClick, editItem, buttonText } = props;
+  const [course, setCourse] = useState(newCourse);
+  useEffect(() => {
+    const setEditCourse = async() => {
+      if (editItem) {
+        await setCourse(editItem);
+      } else {
+        setCourse(newCourse);
+      }
+    }
+    setEditCourse();
+  }, [editItem]);
 
   const classes = useStyles();
-
-  const [course, setCourse] = useState(newCourse);
 
   const updateField = async (e) => {
     let udpatedCourse = course;
@@ -55,7 +65,7 @@ const AddCourseModal = (props) => {
   };
 
   const createNewCourse = async () => {
-    await createCourse(course);
+    await onClick(course);
   }
 
   return (
@@ -65,7 +75,7 @@ const AddCourseModal = (props) => {
         className={classes.root}
         onClose={handleClose}
       >
-        <Typography variant='h6'>Add New Course</Typography>
+        <Typography variant='h6'>{buttonText} Course</Typography>
         {onClose ? (
           <IconButton
             aria-label='close'
@@ -196,8 +206,9 @@ const AddCourseModal = (props) => {
           onClick={() => createNewCourse()}
           color='primary'
           variant={"outlined"}
+          disabled={buttonLoading}
         >
-          {buttonLoading ? <CircularProgress size={25} /> : "ADD"}
+          {buttonLoading ? <CircularProgress size={25} /> : buttonText}
         </Button>
       </DialogActions>
     </Dialog>

@@ -7,7 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CourseCard from "../CourseCard";
 
 const AllCourses = (props) => {
-  const { courses, setAddCourseModal } = props;
+  const { courses, setAddCourseModal, editCourse, setDeleteItem } = props;
   return (
     <Box mt={3}>
       <Container>
@@ -35,7 +35,7 @@ const AllCourses = (props) => {
           </Grid>
         </Grid>
         {courses.map((course, index) => {
-          return <CourseCard course={course} index={index} />;
+          return <CourseCard course={course} key={index} index={index} editCourse={editCourse} setDeleteItem={setDeleteItem} />;
         })}
       </Container>
     </Box>
