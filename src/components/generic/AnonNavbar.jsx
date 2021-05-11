@@ -2,8 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, AppBar, Toolbar } from "@material-ui/core";
-
+import { Container, AppBar, Toolbar, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,12 +12,19 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
     color: "white",
     textDecoration: "none",
     cursor: "pointer",
     fontSize: 20,
-    fontWeight: 700
+    paddingRight: 20,
+    fontWeight: 700,
+  },
+  subtitle: {
+    color: "white",
+    textDecoration: "none",
+    cursor: "pointer",
+    fontSize: 16,
+    paddingRight: 20,
   },
   linkText: {
     color: "white",
@@ -26,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     textTransform: "uppercase",
     paddingLeft: 10,
+    cursor: "pointer",
     textDecoration: "none",
   },
 }));
@@ -38,24 +45,33 @@ const AnonNavbar = () => {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Link to={"/"} variant='h6' className={classes.title}>
-              DevCamper
-            </Link>
-            {pathname !== "/login" ? (
-              <Link to='/login' className={classes.linkText}>
-                Login
-              </Link>
-            ) : null}
-            {pathname !== "/register" ? (
-              <Link to='/register' className={classes.linkText}>
-                Register
-              </Link>
-            ) : null}
+            <Grid container justify={"space-between"}>
+              <Grid item>
+                <Link to={"/"} variant='h6' className={classes.title}>
+                  DevCamper
+                </Link>
+                <Link to={"/bootcamps"} variant='h6' className={classes.subtitle}>
+                  Bootcamps
+                </Link>
+              </Grid>
+              <Grid item>
+                {pathname !== "/login" ? (
+                  <Link to='/login' className={classes.linkText}>
+                    Login
+                  </Link>
+                ) : null}
+                {pathname !== "/register" ? (
+                  <Link to='/register' className={classes.linkText}>
+                    Register
+                  </Link>
+                ) : null}
+              </Grid>
+            </Grid>
           </Toolbar>
         </Container>
       </AppBar>
     </div>
   );
-}
+};
 
 export default AnonNavbar;

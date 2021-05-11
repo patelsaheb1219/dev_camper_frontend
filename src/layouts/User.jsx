@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router-dom";
 import UserNavbar from "../components/generic/UserNavbar";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
+import Bootcamps from "../components/Bootcamps";
 
 const User = () => {
   return (
@@ -15,6 +16,7 @@ const User = () => {
         <Switch>
           <Route path='/home' component={Home} />
           <Route path='/profile' component={Profile} />
+          <Route path='/bootcamps' component={Bootcamps} />
         </Switch>
       </div>
     </React.Fragment>

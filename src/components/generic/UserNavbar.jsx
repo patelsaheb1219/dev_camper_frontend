@@ -3,11 +3,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, Link } from "react-router-dom";
-import { Container, AppBar, Toolbar, Button } from "@material-ui/core";
-import { useSnackbar } from 'notistack';
+import { Container, AppBar, Toolbar, Button, Grid } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 
 // File Import
-import { userLoggedOut } from '../../redux/actions/userActions';
+import { userLoggedOut } from "../../redux/actions/userActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +23,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 700,
     cursor: "pointer",
+    paddingRight: 20
+  },
+  subtitle: {
+    color: "white",
+    textDecoration: "none",
+    cursor: "pointer",
+    fontSize: 16,
+    paddingRight: 20,
   },
   linkText: {
     color: "white",
@@ -47,23 +55,34 @@ const UserNavbar = (props) => {
         variant: "success",
       });
     } catch (err) {
-      enqueueSnackbar('Something wrong happend', {
+      enqueueSnackbar("Something wrong happend", {
         variant: "error",
       });
     }
-  }
+  };
   return (
     <div className={classes.root}>
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Link to={"/home"} variant='h6' className={classes.title}>
-              DevCamper
-            </Link>
-            <Link to='/profile' className={classes.linkText}>
-              Profile
-            </Link>
-            <Button color='inherit' onClick={onUserLoggedOut}>Logout</Button>
+            <Grid container justify={"space-between"}>
+              <Grid item>
+                <Link to={"/home"} variant='h6' className={classes.title}>
+                  DevCamper
+                </Link>
+                <Link to={"/bootcamps"} variant='h6' className={classes.subtitle}>
+                  Bootcamps
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to='/profile' className={classes.linkText}>
+                  Profile
+                </Link>
+                <Button color='inherit' onClick={onUserLoggedOut}>
+                  Logout
+                </Button>
+              </Grid>
+            </Grid>
           </Toolbar>
         </Container>
       </AppBar>

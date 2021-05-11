@@ -57,7 +57,7 @@ const App = () => {
         <SnackbarProvider
           maxSnack={2}
           anchorOrigin={{
-            vertical: "top",
+            vertical: "bottom",
             horizontal: "right",
           }}
           TransitionComponent={Slide}
