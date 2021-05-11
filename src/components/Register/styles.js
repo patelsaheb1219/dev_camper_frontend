@@ -17,4 +17,7 @@ export const styleRules = (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  inputContainer: {
+    backgroundColor: '#fff'
+  }
 });

@@ -18,7 +18,7 @@ const CourseCard = (props) => {
   return (
     <Box mb={3}>
       <Grid container alignItems={"center"} justify={"center"} key={index}>
-        <Grid item xs={12} md={8} lg={8}>
+        <Grid item xs={12} md={8} lg={8} className={classes.boxContainer}>
           <Box p={3} boxShadow={3}>
             <Typography variant={"h5"}>{course.title}</Typography>
             <Divider className={classes.divider} />

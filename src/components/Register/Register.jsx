@@ -82,6 +82,7 @@ const Register = (props) => {
                   label='Name'
                   autoFocus
                   onChange={(e) => setName(e.target.value)}
+                  className={classes.inputContainer}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -94,6 +95,7 @@ const Register = (props) => {
                   name='email'
                   autoComplete='email'
                   onChange={(e) => setEmail(e.target.value)}
+                  className={classes.inputContainer}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -107,6 +109,7 @@ const Register = (props) => {
                   id='password'
                   autoComplete='current-password'
                   onChange={(e) => setPassword(e.target.value)}
+                  className={classes.inputContainer}
                 />
               </Grid>
               <Grid item xs={12}>

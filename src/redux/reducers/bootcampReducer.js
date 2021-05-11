@@ -1,9 +1,8 @@
 // File Import
-import { BOOTCAMP, COURSES } from "../../utils/types";
+import { BOOTCAMP } from "../../utils/types";
 
 const initialState = {
-  bootcamp: null,
-  courses: []
+  bootcamp: null
 };
 
 const bootcampReducer = (state = initialState, action) => {
@@ -12,11 +11,6 @@ const bootcampReducer = (state = initialState, action) => {
       return {
         ...state,
         bootcamp: action.payload
-      }
-    case COURSES:
-      return {
-        ...state,
-        courses: action.payload
       }
     default:
       return state;

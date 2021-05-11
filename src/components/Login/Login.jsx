@@ -64,6 +64,7 @@ const Login = (props) => {
               autoComplete='email'
               onChange={(e) => setEmail(e.target.value)}
               autoFocus
+              className={classes.inputContainer}
             />
             <TextField
               variant='outlined'
@@ -76,6 +77,7 @@ const Login = (props) => {
               id='password'
               onChange={(e) => setPassword(e.target.value)}
               autoComplete='current-password'
+              className={classes.inputContainer}
             />
             <Button
               type='submit'

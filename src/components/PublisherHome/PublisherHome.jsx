@@ -1,23 +1,20 @@
 // Module Imports
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {
-  Container,
-  Grid,
-  Box,
-  CircularProgress,
-} from "@material-ui/core";
+import { Container, Grid, Box, CircularProgress } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 
 // File Imports
 import {
   createBootcamp,
-  fetchBootcampCourses,
   fetchUserBootcamp,
+} from "../../redux/actions/bootcampActions";
+import {
   createCourse,
   updatedCourse,
-  deletedCourse
-} from "../../redux/actions/bootcampActions";
+  deletedCourse,
+  fetchBootcampCourses,
+} from "../../redux/actions/courseActions";
 import AllCourses from "./AllCourses";
 import AddCourse from "./AddCourse";
 import AddBootcamp from "./AddBootcamp";
@@ -38,7 +35,7 @@ const PublisherHome = (props) => {
     pageLoading,
     createCourse,
     updatedCourse,
-    deletedCourse
+    deletedCourse,
   } = props;
   const [addBootcampModal, setAddBootcampModal] = useState(false);
   const [addCourseModal, setAddCourseModal] = useState(false);
@@ -91,13 +88,13 @@ const PublisherHome = (props) => {
   const closeCourseModal = async () => {
     await setEditExistingCourse(null);
     await setAddCourseModal(false);
-  }
+  };
 
   // Handle Delete Item Modal
   const handleDeleteItem = async () => {
     await setDeleteCourseId(null);
     await setDeleteModal(false);
-  }
+  };
 
   // Create a new Course
   const createNewCourse = async (course) => {
@@ -138,7 +135,7 @@ const PublisherHome = (props) => {
         }
       );
     }
-  }
+  };
 
   // Delete Course
   const deleteCourse = async () => {
@@ -159,19 +156,19 @@ const PublisherHome = (props) => {
         }
       );
     }
-  }
+  };
 
   // Set Course for Edit and modal to true
   const editCourse = async (course) => {
     await setEditExistingCourse(course);
     await setAddCourseModal(true);
-  }
+  };
 
   // Set Course Id for delete and open Delete Item Modal
   const setDeleteItem = async (courseId) => {
     await setDeleteCourseId(courseId);
     await setDeleteModal(true);
-  }
+  };
 
   // Open/Close bootcamp Modal
   const addNewBootcampModal = () => {
@@ -193,7 +190,9 @@ const PublisherHome = (props) => {
         open={addCourseModal}
         buttonText={editExistingCourse ? "Update" : "Add"}
         onClose={closeCourseModal}
-        onClick={(course) => editExistingCourse ? updateCourse(course) : createNewCourse(course)}
+        onClick={(course) =>
+          editExistingCourse ? updateCourse(course) : createNewCourse(course)
+        }
         buttonLoading={buttonLoading}
         editItem={editExistingCourse}
       />
@@ -203,15 +202,15 @@ const PublisherHome = (props) => {
   // Open/Close DelteItem Modal
   const deleteItem = () => {
     return (
-      <DeleteItem 
+      <DeleteItem
         open={deleteModal}
-        title={'Delete Course'}
-        description={'Are you sure you want to delete this course?'}
+        title={"Delete Course"}
+        description={"Are you sure you want to delete this course?"}
         handleClose={handleDeleteItem}
         onClick={deleteCourse}
       />
-    )
-  }
+    );
+  };
 
   const LoadingComponent = () => {
     return (
@@ -239,13 +238,14 @@ const PublisherHome = (props) => {
       {bootcamp && courses && courses.length === 0 ? (
         <AddCourse setAddCourseModal={setAddCourseModal} />
       ) : null}
-      {courses && courses.length > 0 
-        ? (<AllCourses 
-            courses={courses} 
-            setAddCourseModal={setAddCourseModal} 
-            editCourse={editCourse} 
-            setDeleteItem={setDeleteItem} 
-          />) : null}
+      {courses && courses.length > 0 ? (
+        <AllCourses
+          courses={courses}
+          setAddCourseModal={setAddCourseModal}
+          editCourse={editCourse}
+          setDeleteItem={setDeleteItem}
+        />
+      ) : null}
       {addNewBootcampModal()}
       {addNewCourseModal()}
       {deleteItem()}
@@ -258,7 +258,7 @@ const mapStateToProps = (state) => {
     buttonLoading: state.user.buttonLoading,
     pageLoading: state.user.pageLoading,
     bootcamp: state.bootcamp.bootcamp,
-    courses: state.bootcamp.courses,
+    courses: state.course.courses,
   };
 };
 
@@ -269,7 +269,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchBootcampCourses: (id) => dispatch(fetchBootcampCourses(id)),
     createCourse: (course) => dispatch(createCourse(course)),
     updatedCourse: (course) => dispatch(updatedCourse(course)),
-    deletedCourse: (id) => dispatch(deletedCourse(id))
+    deletedCourse: (id) => dispatch(deletedCourse(id)),
   };
 };
 

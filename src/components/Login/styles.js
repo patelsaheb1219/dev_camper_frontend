@@ -24,5 +24,8 @@ export const styleRules = (theme) => ({
   circularProgress: {
     width: 25,
     height: 25
+  },
+  inputContainer: {
+    backgroundColor: '#fff'
   }
 });
