@@ -1,12 +1,18 @@
 // File Import
-import { BOOTCAMP } from "../../utils/types";
+import { BOOTCAMP, ALL_BOOTCAMPS } from "../../utils/types";
 
 const initialState = {
+  bootcamps: [],
   bootcamp: null
 };
 
 const bootcampReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ALL_BOOTCAMPS:
+      return {
+        ...state,
+        bootcamps: action.payload
+      }
     case BOOTCAMP:
       return {
         ...state,

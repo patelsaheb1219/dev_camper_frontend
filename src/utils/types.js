@@ -6,6 +6,8 @@ export const PAGE_LOADING = 'PAGE_LOADING';
 
 export const USER = 'USER';
 
+export const ALL_BOOTCAMPS = 'ALL_BOOTCAMPS';
+
 export const BOOTCAMP = 'BOOTCAMP';
 
 export const COURSES = 'COURSES';

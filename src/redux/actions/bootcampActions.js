@@ -5,9 +5,34 @@ import axios from "axios";
 import {
   BOOTCAMP,
   BUTTON_LOADING,
-  PAGE_LOADING
+  PAGE_LOADING,
+  ALL_BOOTCAMPS
 } from "../../utils/types";
 import { headers } from "../../utils/headers";
+
+export const getAllBootcamps = () => async dispatch => {
+  dispatch({
+    type: PAGE_LOADING,
+    payload: true,
+  });
+  try {
+    const response = await axios.get(`https://developercamper.herokuapp.com/api/v1/bootcamps`);
+    dispatch({
+      type: ALL_BOOTCAMPS,
+      payload: response.data.data
+    })
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
+  } catch (err) {
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false,
+    });
+    throw err
+  }
+}
 
 export const createBootcamp = (bootcamp) => async (dispatch) => {
   dispatch({
