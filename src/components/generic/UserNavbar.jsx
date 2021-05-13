@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 700,
     cursor: "pointer",
-    paddingRight: 20
+    paddingRight: 20,
   },
   subtitle: {
     color: "white",
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserNavbar = (props) => {
-  const { userLoggedOut } = props;
+  const { userLoggedOut, user, bootcamp } = props;
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -66,16 +66,25 @@ const UserNavbar = (props) => {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Grid container justify={"space-between"}>
+            <Grid container justify={"space-between"} alignItems={'center'}>
               <Grid item>
                 <Link to={"/home"} variant='h6' className={classes.title}>
                   DevCamper
                 </Link>
-                <Link to={"/bootcamps"} variant='h6' className={classes.subtitle}>
+                <Link
+                  to={"/bootcamps"}
+                  variant='h6'
+                  className={classes.subtitle}
+                >
                   Bootcamps
                 </Link>
               </Grid>
               <Grid item>
+                {user && user.role === "publisher" && bootcamp ? (
+                  <Link to='/bootcamp' className={classes.linkText}>
+                    Edit Bootcamp
+                  </Link>
+                ) : null}
                 <Link to='/profile' className={classes.linkText}>
                   Profile
                 </Link>
@@ -91,10 +100,17 @@ const UserNavbar = (props) => {
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+    bootcamp: state.bootcamp.bootcamp,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     userLoggedOut: (history) => dispatch(userLoggedOut(history)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserNavbar);
+export default connect(mapStateToProps, mapDispatchToProps)(UserNavbar);
