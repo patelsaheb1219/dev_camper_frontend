@@ -98,7 +98,16 @@ const Bootcamp = (props) => {
   const updatedBootcamp = async () => {
     let finalBootcamp = editBootcamp;
     finalBootcamp = { ...finalBootcamp, careers: options };
-    await updateBootcamp(finalBootcamp);
+    try {
+      await updateBootcamp(finalBootcamp);
+      enqueueSnackbar("Bootcamp updated Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar(err.response.data.error, {
+        variant: "error",
+      });
+    }
   };
 
   if (!bootcamp || pageLoading) {
