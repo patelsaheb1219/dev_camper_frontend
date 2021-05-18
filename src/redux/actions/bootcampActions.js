@@ -125,3 +125,28 @@ export const uploadedBootcampImage = (file) => async dispatch => {
     throw err;
   }
 }
+
+// Update Bootcamp
+export const updateBootcamp = (bootcamp) => async dispatch => {
+  dispatch({
+    type: BUTTON_LOADING,
+    payload: true
+  })
+  try {
+    const response = await axios.put(`https://developercamper.herokuapp.com/api/v1/bootcamps/${bootcamp._id}`, bootcamp, headers())
+    dispatch({
+      type: BOOTCAMP,
+      payload: response.data.data
+    })
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false
+    })
+  } catch (err) {
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false
+    })
+    throw err;
+  }
+}

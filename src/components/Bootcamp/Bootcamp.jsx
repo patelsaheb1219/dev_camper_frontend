@@ -18,11 +18,13 @@ import { connect } from "react-redux";
 import { useSnackbar } from "notistack";
 
 // File Imports
+import PageLoader from "../generic/PageLoader";
 import { styleRules } from "./styles";
 import { careerOptions } from "../../utils/careerOptions";
 import {
   fetchUserBootcamp,
   uploadedBootcampImage,
+  updateBootcamp,
 } from "../../redux/actions/bootcampActions";
 
 //Default const
@@ -35,6 +37,7 @@ const Bootcamp = (props) => {
     fetchUserBootcamp,
     pageLoading,
     uploadedBootcampImage,
+    updateBootcamp,
   } = props;
 
   const [editBootcamp, setEditBootcamp] = useState(null);
@@ -49,7 +52,7 @@ const Bootcamp = (props) => {
     if (bootcamp) {
       setEditBootcamp(bootcamp);
       setOptions(bootcamp.careers);
-      setImage(bootcamp.photo)
+      setImage(bootcamp.photo);
     }
   };
 
@@ -57,7 +60,7 @@ const Bootcamp = (props) => {
     if (bootcamp) {
       setEditBootcamp(bootcamp);
       setOptions(bootcamp.careers);
-      setImage(bootcamp.photo)
+      setImage(bootcamp.photo);
     } else {
       fetchBootcamp();
     }
@@ -91,25 +94,15 @@ const Bootcamp = (props) => {
     setOptions(e.target.value);
   };
 
-  // // Edit Bootcamp
-  // const editBootcamp = async () => {
-  //   let finalBootcamp = bootcamp;
-  //   finalBootcamp = { ...finalBootcamp, careers: options };
-  //   await createBootcamp(finalBootcamp);
-  // };
+  // Edit Bootcamp
+  const updatedBootcamp = async () => {
+    let finalBootcamp = editBootcamp;
+    finalBootcamp = { ...finalBootcamp, careers: options };
+    await updateBootcamp(finalBootcamp);
+  };
 
   if (!bootcamp || pageLoading) {
-    return (
-      <Container>
-        <Box>
-          <Grid container justify={"center"} alignItems={"center"}>
-            <Grid item xs={12} md={8} lg={8}>
-              <CircularProgress />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    );
+    return <PageLoader />;
   }
 
   if (editBootcamp) {
@@ -244,7 +237,7 @@ const Bootcamp = (props) => {
                         <RadioGroup
                           aria-label=''
                           name='housing'
-                          value={bootcamp.housing.toString()}
+                          value={editBootcamp.housing.toString()}
                           onChange={(e) => updateField(e)}
                         >
                           <Grid container direction='row' justify='flex-start'>
@@ -272,7 +265,7 @@ const Bootcamp = (props) => {
                         <RadioGroup
                           aria-label='jobAssistance'
                           name='jobAssistance'
-                          value={bootcamp.jobAssistance.toString()}
+                          value={editBootcamp.jobAssistance.toString()}
                           onChange={(e) => updateField(e)}
                         >
                           <Grid container direction='row' justify='flex-start'>
@@ -300,7 +293,7 @@ const Bootcamp = (props) => {
                         <RadioGroup
                           aria-label='jobGuarantee'
                           name='jobGuarantee'
-                          value={bootcamp.jobGuarantee.toString()}
+                          value={editBootcamp.jobGuarantee.toString()}
                           onChange={(e) => updateField(e)}
                         >
                           <Grid container direction='row' justify='flex-start'>
@@ -328,7 +321,7 @@ const Bootcamp = (props) => {
                         <RadioGroup
                           aria-label='acceptGi'
                           name='acceptGi'
-                          value={bootcamp.acceptGi.toString()}
+                          value={editBootcamp.acceptGi.toString()}
                           onChange={(e) => updateField(e)}
                         >
                           <Grid container direction='row' justify='flex-start'>
@@ -383,9 +376,9 @@ const Bootcamp = (props) => {
                     <Grid item>
                       <Box mb={2} mt={1} className={classes.imageBoxContainer}>
                         <img
-                          src={`https://developercamper.herokuapp.com/uploads/${bootcamp.photo}`}
+                          src={`https://developercamper.herokuapp.com/uploads/${image}`}
                           className={classes.image}
-                          alt="No data uploded"
+                          alt='No data uploded'
                         />
                       </Box>
                     </Grid>
@@ -398,7 +391,7 @@ const Bootcamp = (props) => {
                       variant='contained'
                       color='primary'
                       className={classes.submit}
-                      onClick={() => console.log(editBootcamp)}
+                      onClick={updatedBootcamp}
                       disabled={buttonLoading}
                     >
                       {buttonLoading ? <CircularProgress size={25} /> : "Edit"}
@@ -428,6 +421,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserBootcamp: () => dispatch(fetchUserBootcamp()),
     uploadedBootcampImage: (file) => dispatch(uploadedBootcampImage(file)),
+    updateBootcamp: (bootcamp) => dispatch(updateBootcamp(bootcamp)),
   };
 };
 
