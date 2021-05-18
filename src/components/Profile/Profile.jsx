@@ -12,11 +12,11 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  OutlinedInput
+  OutlinedInput,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import { useSnackbar } from 'notistack';
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import { useSnackbar } from "notistack";
 
 // File Imports
 import { updateUserDetails } from "../../redux/actions/userActions";
@@ -25,8 +25,6 @@ import { styleRules } from "./styles";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
-
-
 
 const Profile = (props) => {
   const { pageLoading, updateUserDetails, buttonLoading, userProfile } = props;
@@ -48,32 +46,46 @@ const Profile = (props) => {
   const updateUser = async (e) => {
     setEdit(true);
     let updatedUser = user;
-    updatedUser = { ...updatedUser, [e.target.name]: e.target.value }
+    updatedUser = { ...updatedUser, [e.target.name]: e.target.value };
     setUser(updatedUser);
-  }
+  };
 
   // Call Update User API
   const updateExistingUser = async () => {
     try {
-      await setEdit(false)
+      await setEdit(false);
       await updateUserDetails(user);
       enqueueSnackbar("User Details Updated Successfully!", {
         variant: "success",
       });
     } catch (err) {
-      enqueueSnackbar(JSON.stringify(err.response.data.error).replace("[", "").replace("]", ""), {
-        variant: "error",
-      });
+      enqueueSnackbar(
+        JSON.stringify(err.response.data.error)
+          .replace("[", "")
+          .replace("]", ""),
+        {
+          variant: "error",
+        }
+      );
     }
-  }
+  };
 
   if (user) {
     return (
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
-        <Box mt={10} mb={10}>
+        <Box
+          mt={10}
+          mb={10}
+          p={3}
+          boxShadow={3}
+          style={{ backgroundColor: "#fff" }}
+        >
           <div className={classes.paper}>
-            <AccountBoxIcon style={{ height: 100, width: 100 }} color="primary" />
+            <AccountBoxIcon
+              style={{ height: 100, width: 100 }}
+              color='primary'
+            />
             <Typography component='h1' variant='h5'>
               {`${capitalize(user.role)}'s Profile`}
             </Typography>
@@ -141,9 +153,21 @@ const Profile = (props) => {
                 onClick={updateExistingUser}
                 disabled={!edit || buttonLoading}
               >
-                {
-                  buttonLoading ? <CircularProgress size={25} /> : 'Update Details'
-                }
+                {buttonLoading ? (
+                  <CircularProgress size={25} />
+                ) : (
+                  "Update Details"
+                )}
+              </Button>
+
+              <Button
+                fullWidth
+                variant='contained'
+                color='secondary'
+                className={classes.submit}
+                disabled={buttonLoading}
+              >
+                Update Password
               </Button>
             </div>
           </div>
@@ -159,13 +183,13 @@ const mapStateToProps = (state) => {
   return {
     pageLoading: state.user.pageLoading,
     buttonLoading: state.user.buttonLoading,
-    userProfile: state.user.user
+    userProfile: state.user.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUserDetails: (userInfo) => dispatch(updateUserDetails(userInfo))
+    updateUserDetails: (userInfo) => dispatch(updateUserDetails(userInfo)),
   };
 };
 
