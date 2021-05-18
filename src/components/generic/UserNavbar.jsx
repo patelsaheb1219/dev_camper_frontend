@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, Link } from "react-router-dom";
-import { Container, AppBar, Toolbar, Button, Grid } from "@material-ui/core";
+import { Container, AppBar, Toolbar, Grid } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 
 // File Import
@@ -66,7 +66,7 @@ const UserNavbar = (props) => {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Grid container justify={"space-between"} alignItems={'center'}>
+            <Grid container justify={"space-between"} alignItems={"center"}>
               <Grid item>
                 <Link to={"/home"} variant='h6' className={classes.title}>
                   DevCamper
@@ -88,9 +88,9 @@ const UserNavbar = (props) => {
                 <Link to='/profile' className={classes.linkText}>
                   Profile
                 </Link>
-                <Button color='inherit' onClick={onUserLoggedOut}>
-                  Logout
-                </Button>
+                <Link to='/login' onClick={onUserLoggedOut} className={classes.linkText}>
+                    Logout
+                </Link>
               </Grid>
             </Grid>
           </Toolbar>

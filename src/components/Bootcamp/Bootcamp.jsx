@@ -15,27 +15,41 @@ import {
   Button,
 } from "@material-ui/core";
 import { connect } from "react-redux";
+import { useSnackbar } from "notistack";
 
 // File Imports
 import { styleRules } from "./styles";
 import { careerOptions } from "../../utils/careerOptions";
-import { fetchUserBootcamp } from "../../redux/actions/bootcampActions";
+import {
+  fetchUserBootcamp,
+  uploadedBootcampImage,
+} from "../../redux/actions/bootcampActions";
 
 //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const Bootcamp = (props) => {
-  const { bootcamp, buttonLoading, fetchUserBootcamp, pageLoading } = props;
+  const {
+    bootcamp,
+    buttonLoading,
+    fetchUserBootcamp,
+    pageLoading,
+    uploadedBootcampImage,
+  } = props;
+
   const [editBootcamp, setEditBootcamp] = useState(null);
   const [options, setOptions] = useState([]);
+  const [image, setImage] = useState(null);
 
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const fetchBootcamp = async () => {
     await fetchUserBootcamp();
     if (bootcamp) {
       setEditBootcamp(bootcamp);
       setOptions(bootcamp.careers);
+      setImage(bootcamp.photo)
     }
   };
 
@@ -43,17 +57,36 @@ const Bootcamp = (props) => {
     if (bootcamp) {
       setEditBootcamp(bootcamp);
       setOptions(bootcamp.careers);
+      setImage(bootcamp.photo)
     } else {
       fetchBootcamp();
     }
+    // eslint-disable-next-line
   }, [bootcamp]);
 
+  // Update Field
   const updateField = async (e) => {
     let updatedBootcamp = editBootcamp;
     updatedBootcamp = { ...updatedBootcamp, [e.target.name]: e.target.value };
     await setEditBootcamp(updatedBootcamp);
   };
 
+  // Update Image
+  const uploadedImage = async (e) => {
+    try {
+      await uploadedBootcampImage(e.target.files[0]);
+      enqueueSnackbar("Image Uploded Successfully!", {
+        variant: "success",
+      });
+    } catch (err) {
+      console.log(err);
+      enqueueSnackbar(err.response.data.error, {
+        variant: "error",
+      });
+    }
+  };
+
+  // Update Career Option
   const updateOptions = async (e) => {
     setOptions(e.target.value);
   };
@@ -82,15 +115,10 @@ const Bootcamp = (props) => {
   if (editBootcamp) {
     return (
       <Container>
-        <Box mt={2}>
+        <Box mt={2} mb={3}>
           <Grid container justify={"center"} alignItems={"center"}>
             <Grid item xs={12} md={8} lg={8}>
-              <Box
-                mt={2}
-                p={3}
-                boxShadow={3}
-                style={{ backgroundColor: "#fff" }}
-              >
+              <Box mt={2} p={3} boxShadow={3} className={classes.boxContainer}>
                 <Typography variant={"h4"}>Edit Bootcamp</Typography>
                 <Grid container direction={"column"}>
                   <Grid item container spacing={3}>
@@ -325,6 +353,45 @@ const Bootcamp = (props) => {
                   </Grid>
 
                   <Grid item>
+                    <Box pt={1} pb={2}>
+                      <input
+                        accept='image/*'
+                        className={classes.input}
+                        id='contained-button-file'
+                        type='file'
+                        onChange={uploadedImage}
+                      />
+                      <label htmlFor='contained-button-file'>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          component='span'
+                          fullWidth
+                          disabled={buttonLoading}
+                        >
+                          {buttonLoading ? (
+                            <CircularProgress size={25} />
+                          ) : (
+                            `Upload Image`
+                          )}
+                        </Button>
+                      </label>
+                    </Box>
+                  </Grid>
+
+                  {image ? (
+                    <Grid item>
+                      <Box mb={2} mt={1} className={classes.imageBoxContainer}>
+                        <img
+                          src={`https://developercamper.herokuapp.com/uploads/${bootcamp.photo}`}
+                          className={classes.image}
+                          alt="No data uploded"
+                        />
+                      </Box>
+                    </Grid>
+                  ) : null}
+
+                  <Grid item>
                     <Button
                       type='submit'
                       fullWidth
@@ -334,9 +401,7 @@ const Bootcamp = (props) => {
                       onClick={() => console.log(editBootcamp)}
                       disabled={buttonLoading}
                     >
-                      {
-                        buttonLoading ? <CircularProgress size={25} /> : "Edit"
-                      }
+                      {buttonLoading ? <CircularProgress size={25} /> : "Edit"}
                     </Button>
                   </Grid>
                 </Grid>
@@ -362,6 +427,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserBootcamp: () => dispatch(fetchUserBootcamp()),
+    uploadedBootcampImage: (file) => dispatch(uploadedBootcampImage(file)),
   };
 };
 

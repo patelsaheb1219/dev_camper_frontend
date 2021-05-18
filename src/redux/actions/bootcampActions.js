@@ -1,7 +1,9 @@
 // Module Import
 import axios from "axios";
+import FormData from 'form-data'
 
 // File Imports
+import store from '../store';
 import {
   BOOTCAMP,
   BUTTON_LOADING,
@@ -85,3 +87,41 @@ export const fetchUserBootcamp = () => async (dispatch) => {
     payload: false,
   });
 };
+
+export const uploadedBootcampImage = (file) => async dispatch => {
+  let data = new FormData();
+  data.append('file', file);
+  dispatch({
+    type: BUTTON_LOADING,
+    payload: true
+  })
+  try {
+    let bootcamp = await store.getState().bootcamp.bootcamp;
+    const token = localStorage.getItem("authToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    const response = await axios.put(`https://developercamper.herokuapp.com/api/v1/bootcamps/${bootcamp._id}/photo`, data, config);
+    if (response.data.success) {
+      bootcamp = { ...bootcamp, photo: response.data.data }
+    }
+
+    dispatch({
+      type: BOOTCAMP,
+      payload: bootcamp
+    })
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+  } catch (err) {
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+    throw err;
+  }
+}
