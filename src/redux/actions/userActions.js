@@ -138,3 +138,24 @@ export const updateUserDetails = (userInfo) => async (dispatch) => {
   }
   
 };
+
+// Update User Password
+export const updateUserPassword = (password) => async dispatch => {
+  dispatch({
+    type: BUTTON_LOADING,
+    payload: true,
+  });
+  try {
+    await axios.put(`https://developercamper.herokuapp.com/api/v1/auth/updatepassword`, password, headers())
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+  } catch (err) {
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: false,
+    });
+    throw err;
+  }
+}

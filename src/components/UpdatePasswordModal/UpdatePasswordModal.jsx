@@ -24,7 +24,7 @@ import { styleRules } from "./styles";
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const UpdatePassword = (props) => {
-  const { open, onClose, buttonText, buttonLoading } = props;
+  const { open, onClose, buttonText, buttonLoading, updateUserPassword } = props;
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -99,7 +99,10 @@ const UpdatePassword = (props) => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => console.log(newPassword)}
+          onClick={async () => {
+            await updateUserPassword({ currentPassword, newPassword })
+            await closeModal();
+          }}
           color='primary'
           variant={"outlined"}
           disabled={buttonLoading}
