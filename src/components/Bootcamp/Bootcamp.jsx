@@ -25,6 +25,7 @@ import {
   fetchUserBootcamp,
   uploadedBootcampImage,
   updateBootcamp,
+  deleteBootcamp,
 } from "../../redux/actions/bootcampActions";
 
 //Default const
@@ -38,6 +39,7 @@ const Bootcamp = (props) => {
     pageLoading,
     uploadedBootcampImage,
     updateBootcamp,
+    deleteBootcamp
   } = props;
 
   const [editBootcamp, setEditBootcamp] = useState(null);
@@ -109,6 +111,21 @@ const Bootcamp = (props) => {
       });
     }
   };
+
+  // Delete Bootcamp
+  const deletedBootcamp = async () => {
+    try {
+      await deleteBootcamp(editBootcamp._id);
+      enqueueSnackbar("Bootcamp updated Successfully!", {
+        variant: "success",
+      });
+      window.location.href = "/home";
+    } catch (err) {
+      enqueueSnackbar(err.response.data.error, {
+        variant: "error",
+      });
+    }
+  }
 
   if (!bootcamp || pageLoading) {
     return <PageLoader />;
@@ -406,6 +423,26 @@ const Bootcamp = (props) => {
                       {buttonLoading ? <CircularProgress size={25} /> : "Edit"}
                     </Button>
                   </Grid>
+
+                  <Grid item>
+                    <Box mt={2}>
+                      <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='secondary'
+                        className={classes.submit}
+                        onClick={deletedBootcamp}
+                        disabled={buttonLoading}
+                      >
+                        {buttonLoading ? (
+                          <CircularProgress size={25} />
+                        ) : (
+                          "Delete"
+                        )}
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
               </Box>
             </Grid>
@@ -431,6 +468,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserBootcamp: () => dispatch(fetchUserBootcamp()),
     uploadedBootcampImage: (file) => dispatch(uploadedBootcampImage(file)),
     updateBootcamp: (bootcamp) => dispatch(updateBootcamp(bootcamp)),
+    deleteBootcamp: (id) => dispatch(deleteBootcamp(id))
   };
 };
 

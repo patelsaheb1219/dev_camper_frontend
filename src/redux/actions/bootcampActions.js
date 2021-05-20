@@ -150,3 +150,28 @@ export const updateBootcamp = (bootcamp) => async dispatch => {
     throw err;
   }
 }
+
+// Delete a Bootcamp
+export const deleteBootcamp = (id) => async dispatch => {
+  dispatch({
+    type: BUTTON_LOADING,
+    payload: true
+  })
+  try {
+    await axios.delete(`https://developercamper.herokuapp.com/api/v1/bootcamps/${id}`, headers())
+    dispatch({
+      type: BOOTCAMP,
+      payload: null
+    })
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: true
+    })
+  } catch (err) {
+    dispatch({
+      type: BUTTON_LOADING,
+      payload: true
+    })
+    throw err;
+  }
+}
