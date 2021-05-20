@@ -4,8 +4,7 @@ import {
   Container,
   Typography,
   Box,
-  Grid,
-  CircularProgress,
+  Grid
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
@@ -14,6 +13,7 @@ import { connect } from "react-redux";
 import { styleRules } from "./styles";
 import { getAllBootcamps } from "../../redux/actions/bootcampActions";
 import BootcampCard from "../BootcampCard/BootcampCard";
+import PageLoader from "../generic/PageLoader";
 
 // Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
@@ -50,17 +50,10 @@ const Bootcamps = (props) => {
 
   if (pageLoading) {
     return (
-      <Container>
-        <Box m={5}>
-          <Grid container alignItems={"center"} justify={"center"}>
-            <Grid item>
-              <CircularProgress />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
+      <PageLoader />
     );
   }
+  
   return (
     <Container className={classes.container}>
       <Grid container justify={"center"}>

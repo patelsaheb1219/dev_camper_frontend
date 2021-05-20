@@ -7,7 +7,9 @@ import {
   Box,
   Divider,
   Link,
+  Button,
 } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 // File Imports
 import { styleRules } from "./styles";
@@ -38,14 +40,16 @@ const BootcampCard = (props) => {
                   <Typography>
                     <b>Phone</b>
                   </Typography>
-                  <Typography><Link href={`tel:${bootcamp.phone}`}>{bootcamp.phone}</Link></Typography>
+                  <Typography>
+                    <Link href={`tel:${bootcamp.phone}`}>{bootcamp.phone}</Link>
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <Typography>
                     <b>Email</b>
                   </Typography>
                   <Typography>
-                    <Link href={`mailto:${bootcamp.email}`} target={'_blank'}>
+                    <Link href={`mailto:${bootcamp.email}`} target={"_blank"}>
                       {bootcamp.email}
                     </Link>
                   </Typography>
@@ -59,6 +63,16 @@ const BootcampCard = (props) => {
                       {bootcamp.website}
                     </Link>
                   </Typography>
+                </Grid>
+              </Grid>
+              <Divider className={classes.divider} />
+              <Grid container justify={"flex-end"}>
+                <Grid>
+                  <RouterLink to={`/bootcamps/${bootcamp._id}`}>
+                    <Button variant='contained' color='primary'>
+                      View
+                    </Button>
+                  </RouterLink>
                 </Grid>
               </Grid>
             </Box>

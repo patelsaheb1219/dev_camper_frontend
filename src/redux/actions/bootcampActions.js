@@ -175,3 +175,25 @@ export const deleteBootcamp = (id) => async dispatch => {
     throw err;
   }
 }
+
+// Get Bootcamp By Id
+export const getBootcampById = (id) => async dispatch => {
+  dispatch({
+    type: PAGE_LOADING,
+    payload: true
+  })
+  try {
+    const response = await axios.get(`https://developercamper.herokuapp.com/api/v1/bootcamps/${id}`);
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false
+    })
+    return response.data.data;
+  } catch (err) {
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false
+    })
+    throw err;
+  }
+}

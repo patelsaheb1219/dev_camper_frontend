@@ -36,6 +36,8 @@ const checkUserLoggedIn = async () => {
     pathName !== "/register" &&
     pathName !== "/" &&
     pathName !== "/forgotpassword" &&
+    pathName !== "/bootcamps" &&
+    !pathName.startsWith("/bootcamps/") &&
     authToken === null
   ) {
     window.location.href = "/login";

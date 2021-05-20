@@ -1,7 +1,6 @@
 // Module Imports
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Container, Grid, Box, CircularProgress } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 
 // File Imports
@@ -23,6 +22,7 @@ import DeleteItem from "../DeleteItem";
 // Import Add/Update Bootcamp modal
 import AddBootcampModal from "../AddBootcampModal";
 import AddCourseModal from "../AddCourseModal";
+import PageLoader from "../generic/PageLoader";
 
 const PublisherHome = (props) => {
   const {
@@ -212,22 +212,8 @@ const PublisherHome = (props) => {
     );
   };
 
-  const LoadingComponent = () => {
-    return (
-      <Container>
-        <Box m={5}>
-          <Grid container alignItems={"center"} justify={"center"}>
-            <Grid item>
-              <CircularProgress />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    );
-  };
-
   if (pageLoading) {
-    return <LoadingComponent />;
+    return <PageLoader />;
   }
 
   return (

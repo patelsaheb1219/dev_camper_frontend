@@ -9,6 +9,7 @@ import Register from "../components/Register";
 import ForgotPassword from "../components/ForgotPassword";
 import AnonNavbar from "../components/generic/AnonNavbar";
 import Bootcamps from "../components/Bootcamps";
+import BootcampView from "../components/BootcampView/";
 
 const Anon = () => {
   return (
@@ -21,6 +22,7 @@ const Anon = () => {
           <Route exact path='/register' component={Register} />
           <Route exact path='/forgotpassword' component={ForgotPassword} />
           <Route exact path='/bootcamps' component={Bootcamps} />
+          <Route path="/bootcamps/:id" component={BootcampView} />
         </Switch>
       </div>
     </React.Fragment>

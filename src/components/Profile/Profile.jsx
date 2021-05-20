@@ -1,8 +1,6 @@
 // Module Imports
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Container, CircularProgress, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 
 // File Imports
@@ -10,12 +8,9 @@ import {
   updateUserDetails,
   updateUserPassword,
 } from "../../redux/actions/userActions";
-import { styleRules } from "./styles";
 import User from "./User";
 import UpdatePasswordModal from "../UpdatePasswordModal/UpdatePasswordModal";
-
-//Default const
-const useStyles = makeStyles((theme) => styleRules(theme));
+import PageLoader from "../generic/PageLoader";
 
 const Profile = (props) => {
   const {
@@ -25,7 +20,6 @@ const Profile = (props) => {
     userProfile,
     updateUserPassword,
   } = props;
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
   const [passwordModal, setPasswordModal] = useState(false);
@@ -61,11 +55,7 @@ const Profile = (props) => {
 
   if (pageLoading) {
     return (
-      <Container className={classes.textAlignment}>
-        <Box m={10}>
-          <CircularProgress />
-        </Box>
-      </Container>
+      <PageLoader />
     );
   }
 
