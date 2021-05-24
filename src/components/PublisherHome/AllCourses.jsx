@@ -35,7 +35,18 @@ const AllCourses = (props) => {
           </Grid>
         </Grid>
         {courses.map((course, index) => {
-          return <CourseCard course={course} key={index} index={index} editCourse={editCourse} setDeleteItem={setDeleteItem} />;
+          return (
+            <CourseCard
+              course={course}
+              key={index}
+              index={index}
+              editCourse={editCourse}
+              setDeleteItem={setDeleteItem}
+              xs={12}
+              md={8}
+              lg={8}
+            />
+          );
         })}
       </Container>
     </Box>

@@ -12,7 +12,7 @@ const Root = (props) => {
   const { authToken } = props;
   return (
     <React.Fragment>
-      <Box style={{ minHeight: '100vh' }}>{authToken ? <User /> : <Anon />}</Box>
+      <Box style={{ minHeight: '100vh', backgroundColor: '#f1f1f1' }}>{authToken ? <User /> : <Anon />}</Box>
       <Footer />
     </React.Fragment>
   );

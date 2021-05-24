@@ -16,7 +16,7 @@ const User = () => {
       <UserNavbar />
       <div>
         <Switch>
-          <Route path='/home' component={Home} />
+          <Route path='/' component={Home} />
           <Route path='/profile' component={Profile} />
           <Route path='/bootcamps' component={Bootcamps} />
           <Route path="/bootcamp" component={Bootcamp} />

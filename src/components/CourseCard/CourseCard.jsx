@@ -12,13 +12,13 @@ import { capitalize } from "../../utils/general";
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const CourseCard = (props) => {
-  const { course, index, editCourse, setDeleteItem } = props;
+  const { course, index, editCourse, setDeleteItem, xs, md, lg } = props;
   const classes = useStyles();
-  
+
   return (
     <Box mb={3}>
       <Grid container alignItems={"center"} justify={"center"} key={index}>
-        <Grid item xs={12} md={8} lg={8} className={classes.boxContainer}>
+        <Grid item xs={xs} md={md} lg={lg} className={classes.boxContainer}>
           <Box p={3} boxShadow={3}>
             <Typography variant={"h5"}>{course.title}</Typography>
             <Divider className={classes.divider} />
@@ -58,37 +58,39 @@ const CourseCard = (props) => {
               </Grid>
             </Box>
             <Divider className={classes.divider} />
-            <Grid
-              container
-              direction='row'
-              justify='flex-end'
-              alignItems='center'
-            >
-              <Grid item>
-                <Box ml={1} mr={1}>
-                  <Button
-                    variant='contained'
-                    color='inherit'
-                    startIcon={<EditIcon />}
-                    onClick={() => editCourse(course)}
-                  >
-                    Edit
-                  </Button>
-                </Box>
+            {editCourse && setDeleteItem ? (
+              <Grid
+                container
+                direction='row'
+                justify='flex-end'
+                alignItems='center'
+              >
+                <Grid item>
+                  <Box ml={1} mr={1}>
+                    <Button
+                      variant='contained'
+                      color='inherit'
+                      startIcon={<EditIcon />}
+                      onClick={() => editCourse(course)}
+                    >
+                      Edit
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item>
+                  <Box ml={1} mr={1}>
+                    <Button
+                      variant='contained'
+                      color='secondary'
+                      startIcon={<DeleteIcon />}
+                      onClick={() => setDeleteItem(course._id)}
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Box ml={1} mr={1}>
-                  <Button
-                    variant='contained'
-                    color='secondary'
-                    startIcon={<DeleteIcon />}
-                    onClick={() => setDeleteItem(course._id)}
-                  >
-                    Delete
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
+            ) : null}
           </Box>
         </Grid>
       </Grid>

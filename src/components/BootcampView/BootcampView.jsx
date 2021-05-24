@@ -32,7 +32,7 @@ const BootcampView = (props) => {
       setBootcamp(response);
     };
     findBootcamp();
-  }, [getBootcampById]);
+  }, [getBootcampById, id]);
 
   if (pageLoading || !bootcamp) {
     return <PageLoader />;

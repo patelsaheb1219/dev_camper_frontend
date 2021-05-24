@@ -7,9 +7,11 @@ import {
   BUTTON_LOADING,
   PAGE_LOADING,
   COURSES,
+  ALL_COURSES,
 } from "../../utils/types";
 import { headers } from "../../utils/headers";
 
+// Fetch courses by bootcamp
 export const fetchBootcampCourses = (bootcampId) => async (dispatch) => {
   dispatch({
     type: PAGE_LOADING,
@@ -38,6 +40,7 @@ export const fetchBootcampCourses = (bootcampId) => async (dispatch) => {
   }
 };
 
+// Create a New Course
 export const createCourse = (course) => async (dispatch) => {
   dispatch({
     type: BUTTON_LOADING,
@@ -69,6 +72,7 @@ export const createCourse = (course) => async (dispatch) => {
   }
 };
 
+// Update a course
 export const updatedCourse = (course) => async (dispatch) => {
   dispatch({
     type: BUTTON_LOADING,
@@ -101,6 +105,7 @@ export const updatedCourse = (course) => async (dispatch) => {
   }
 };
 
+// Delete a course
 export const deletedCourse = (courseId) => async dispatch =>  {
   dispatch({
     type: BUTTON_LOADING,
@@ -131,3 +136,28 @@ export const deletedCourse = (courseId) => async dispatch =>  {
     throw err;
   }
 };
+
+// Get all the courses
+export const getAllCourses = () => async dispatch => {
+  dispatch({
+    type: PAGE_LOADING,
+    payload: true
+  })
+  try {
+    const response = await axios.get(`https://developercamper.herokuapp.com/api/v1/courses`);
+    dispatch({
+      type: ALL_COURSES,
+      payload: response.data.data
+    })
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false
+    })
+  } catch (err) {
+    dispatch({
+      type: PAGE_LOADING,
+      payload: false
+    })
+    throw err;
+  }
+}

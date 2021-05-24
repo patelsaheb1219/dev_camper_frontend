@@ -11,3 +11,5 @@ export const ALL_BOOTCAMPS = 'ALL_BOOTCAMPS';
 export const BOOTCAMP = 'BOOTCAMP';
 
 export const COURSES = 'COURSES';
+
+export const ALL_COURSES = 'ALL_COURSES';

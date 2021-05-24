@@ -1,8 +1,9 @@
 // File Import
-import { COURSES } from "../../utils/types";
+import { ALL_COURSES, COURSES } from "../../utils/types";
 
 const initialState = {
-  courses: []
+  courses: [],
+  allCourses: []
 };
 
 const courseReducer = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const courseReducer = (state = initialState, action) => {
       return {
         ...state,
         courses: action.payload
+      }
+    case ALL_COURSES:
+      return {
+        ...state,
+        allCourses: action.payload
       }
     default:
       return state;
