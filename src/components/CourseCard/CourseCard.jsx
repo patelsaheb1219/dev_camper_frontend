@@ -12,7 +12,7 @@ import { capitalize } from "../../utils/general";
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const CourseCard = (props) => {
-  const { course, index, editCourse, setDeleteItem, xs, md, lg } = props;
+  const { course, index, editCourse, setDeleteItem, xs, md, lg, view, setSelectedCourse } = props;
   const classes = useStyles();
 
   return (
@@ -86,6 +86,26 @@ const CourseCard = (props) => {
                       onClick={() => setDeleteItem(course._id)}
                     >
                       Delete
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
+            ) : null}
+            {view ? (
+              <Grid
+                container
+                direction='row'
+                justify='flex-end'
+                alignItems='center'
+              >
+                <Grid item>
+                  <Box ml={1} mr={1}>
+                    <Button
+                      variant='contained'
+                      color={"primary"}
+                      onClick={() => editCourse(course)}
+                    >
+                      View
                     </Button>
                   </Box>
                 </Grid>

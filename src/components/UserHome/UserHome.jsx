@@ -1,5 +1,5 @@
 // Module Import
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   Box,
@@ -15,12 +15,15 @@ import { styleRules } from "./styles";
 import { getAllCourses } from "../../redux/actions/courseActions";
 import PageLoader from "../generic/PageLoader";
 import CourseCard from "../CourseCard";
+import CourseViewModal from "../CourseViewModal/CourseViewModal";
 
 // //Default const
 const useStyles = makeStyles((theme) => styleRules(theme));
 
 const UserHome = (props) => {
   const { pageLoading, courses, getAllCourses } = props;
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [viewModal, setViewModal] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -31,6 +34,23 @@ const UserHome = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleModalView = async (course) => {
+    await setSelectedCourse(course);
+    await setViewModal(true);
+  }
+
+  // Show Course
+  const courseViewModal = () => {
+    return (
+      <CourseViewModal 
+        open={viewModal}
+        onClose={() => setViewModal(false)}
+        course={selectedCourse}
+      />
+    )
+  }
+
+  // Page Loader
   if (pageLoading) {
     return <PageLoader />;
   }
@@ -47,11 +67,13 @@ const UserHome = (props) => {
                 return (
                   <Box m={2} key={course._id}>
                     <CourseCard
+                      view
                       course={course}
                       index={index}
                       xs={12}
                       md={12}
                       lg={12}
+                      editCourse={handleModalView}
                     />
                   </Box>
                 );
@@ -59,6 +81,7 @@ const UserHome = (props) => {
           </Box>
         </Grid>
       </Grid>
+      {courseViewModal()}
     </Container>
   );
 };
